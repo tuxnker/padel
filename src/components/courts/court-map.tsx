@@ -37,11 +37,10 @@ export function CourtMap({
       zoom={12}
       className="h-full w-full z-0"
       zoomControl={false}
-      attributionControl={false}
     >
       <TileLayer
         url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
       />
       <FitBounds courts={courts} />
       {courts.map((court) => (
