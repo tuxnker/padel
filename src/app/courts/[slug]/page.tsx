@@ -9,6 +9,8 @@ import { CourtBookingCta } from "@/components/courts/court-booking-cta";
 import { NearbyCourts } from "@/components/courts/nearby-courts";
 import Link from "next/link";
 import seedCourts from "@/data/courts-seed.json";
+import { fetchPostsForCourt } from "@/lib/posts";
+import { PostCard } from "@/components/posts/post-card";
 
 type SeedCourt = Omit<Court, "id" | "email"> & {
   id?: string;
@@ -76,6 +78,10 @@ export default async function CourtDetailPage({
       ? (nearby as Court[])
       : fallbackCourts.filter((court) => court.slug !== slug).slice(0, 5);
 
+  const courtPosts = resolvedCourt.id
+    ? await fetchPostsForCourt(supabase, resolvedCourt.id)
+    : [];
+
   return (
     <div className="-mt-16">
       <CourtDetailHero court={resolvedCourt} />
@@ -107,21 +113,30 @@ export default async function CourtDetailPage({
               View All
             </Link>
           </div>
-          <div className="bg-surface-container-lowest rounded-2xl p-5 text-center">
-            <span className="material-symbols-outlined text-outline-variant text-4xl mb-2">
-              group
-            </span>
-            <p className="text-sm text-on-surface-variant">
-              No active games at this venue yet.
-            </p>
-            <Link
-              href="/play?create=true"
-              className="mt-3 inline-flex items-center gap-1 font-headline text-sm font-bold text-primary"
-            >
-              <span className="material-symbols-outlined text-sm">add</span>
-              Create a Game
-            </Link>
-          </div>
+
+          {courtPosts.length > 0 ? (
+            <div className="space-y-4">
+              {courtPosts.map((post) => (
+                <PostCard key={post.id} post={post} />
+              ))}
+            </div>
+          ) : (
+            <div className="bg-surface-container-lowest rounded-2xl p-5 text-center">
+              <span className="material-symbols-outlined text-outline-variant text-4xl mb-2">
+                group
+              </span>
+              <p className="text-sm text-on-surface-variant">
+                No active games at this venue yet.
+              </p>
+              <Link
+                href={`/play?create=true&court=${resolvedCourt.slug}`}
+                className="mt-3 inline-flex items-center gap-1 font-headline text-sm font-bold text-primary"
+              >
+                <span className="material-symbols-outlined text-sm">add</span>
+                Create a Game
+              </Link>
+            </div>
+          )}
         </section>
 
         {/* Booking CTA */}
