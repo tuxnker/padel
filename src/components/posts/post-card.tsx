@@ -58,7 +58,7 @@ export function PostCard({ post }: PostCardProps) {
       {/* Message */}
       {post.message && (
         <p className="font-body text-base text-on-surface leading-relaxed">
-          {highlightVenue(post.message, post.court_name)}
+          {highlightVenue(post.message, post.court_name, post.court_slug)}
         </p>
       )}
 
@@ -91,23 +91,28 @@ function formatTimeAgo(dateStr: string): string {
   return `${diffDays}d ago`;
 }
 
+function escapeRegExp(input: string): string {
+  return input.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
 function highlightVenue(
   message: string,
-  courtName?: string
+  courtName?: string,
+  courtSlug?: string,
 ): React.ReactNode {
   if (!courtName) return message;
-  const parts = message.split(new RegExp(`(${courtName})`, "gi"));
+  const parts = message.split(new RegExp(`(${escapeRegExp(courtName)})`, "gi"));
   return parts.map((part, i) =>
     part.toLowerCase() === courtName.toLowerCase() ? (
       <Link
         key={i}
-        href="#"
+        href={courtSlug ? `/courts/${courtSlug}` : "#"}
         className="font-bold text-primary"
       >
         {part}
       </Link>
     ) : (
       part
-    )
+    ),
   );
 }
