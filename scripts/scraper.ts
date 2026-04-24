@@ -269,11 +269,14 @@ function hasUsableCoordinates(court: Pick<CourtSeed, "latitude" | "longitude">) 
   );
 }
 
+const FETCH_TIMEOUT_MS = 15_000;
+
 async function fetchText(url: string) {
   const response = await fetch(url, {
     headers: {
       "User-Agent": "PadelConnectScraper/1.0 (+https://padelconnect.ie)",
     },
+    signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
   });
 
   if (!response.ok) {
@@ -289,6 +292,7 @@ async function fetchJson<T>(url: string) {
       Accept: "application/json",
       "User-Agent": "PadelConnectScraper/1.0 (+https://padelconnect.ie)",
     },
+    signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
   });
 
   if (!response.ok) {
@@ -363,7 +367,12 @@ function inferStatus(venue: PadelCourtsVenue): CourtStatus {
 function mapPadelCourtsVenue(venue: PadelCourtsVenue): CourtSeed | null {
   const latitude = toNumber(venue.latitude);
   const longitude = toNumber(venue.longitude);
-  if (latitude === null || longitude === null) return null;
+  if (latitude === null || longitude === null) {
+    console.warn(
+      `[scraper] dropping venue without coordinates: ${venue?.name ?? "(unnamed)"} (${venue?.id ?? "?"})`,
+    );
+    return null;
+  }
 
   const indoor = venue.numCourtsIndoor ?? 0;
   const outdoor = venue.numCourtsOutdoor ?? 0;
