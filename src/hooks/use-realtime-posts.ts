@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
+import { fetchPostById } from "@/lib/posts";
 import type { Post } from "@/types";
 import type { RealtimePostgresChangesPayload } from "@supabase/supabase-js";
 
@@ -10,15 +11,7 @@ export function useRealtimePosts(initialPosts: Post[]) {
   const supabase = useMemo(() => createClient(), []);
 
   useEffect(() => {
-    let isMounted = true;
-    queueMicrotask(() => {
-      if (isMounted) {
-        setPosts(initialPosts);
-      }
-    });
-    return () => {
-      isMounted = false;
-    };
+    setPosts(initialPosts);
   }, [initialPosts]);
 
   useEffect(() => {
@@ -29,23 +22,33 @@ export function useRealtimePosts(initialPosts: Post[]) {
       .on(
         "postgres_changes",
         { event: "*", schema: "public", table: "posts" },
-        (payload: RealtimePostgresChangesPayload<Post>) => {
+        async (payload: RealtimePostgresChangesPayload<Post>) => {
           if (payload.eventType === "INSERT") {
-            setPosts((prev) => [payload.new as Post, ...prev]);
+            const full = await fetchPostById(supabase, (payload.new as Post).id);
+            if (full) setPosts((prev) => [full, ...prev]);
           } else if (payload.eventType === "UPDATE") {
+            // payload.new is the raw row (no joins). Merge only mutable scalars
+            // so we don't clobber joined fields like author_name / court_slug.
+            const next = payload.new as Post;
             setPosts((prev) =>
               prev.map((p) =>
-                p.id === (payload.new as Post).id
-                  ? { ...p, ...(payload.new as Post) }
-                  : p
-              )
+                p.id === next.id
+                  ? {
+                      ...p,
+                      status: next.status,
+                      players_joined: next.players_joined,
+                      players_needed: next.players_needed,
+                      message: next.message,
+                    }
+                  : p,
+              ),
             );
           } else if (payload.eventType === "DELETE") {
             setPosts((prev) =>
-              prev.filter((p) => p.id !== (payload.old as { id: string }).id)
+              prev.filter((p) => p.id !== (payload.old as { id: string }).id),
             );
           }
-        }
+        },
       )
       .subscribe();
 
