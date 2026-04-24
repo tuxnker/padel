@@ -33,7 +33,7 @@ export function CourtBookingCta({ court }: CourtBookingCtaProps) {
             open_in_new
           </span>
         </a>
-      ) : (
+      ) : court.phone ? (
         <a
           href={`tel:${court.phone}`}
           className="mt-4 w-full h-12 rounded-2xl signature-gradient text-on-primary font-headline font-bold text-sm uppercase tracking-wider flex items-center justify-center gap-2 active:scale-[0.98] transition-transform"
@@ -41,6 +41,20 @@ export function CourtBookingCta({ court }: CourtBookingCtaProps) {
           Call to Book
           <span className="material-symbols-outlined text-lg">call</span>
         </a>
+      ) : court.website ? (
+        <a
+          href={court.website}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-4 w-full h-12 rounded-2xl signature-gradient text-on-primary font-headline font-bold text-sm uppercase tracking-wider flex items-center justify-center gap-2 active:scale-[0.98] transition-transform"
+        >
+          Visit Venue Website
+          <span className="material-symbols-outlined text-lg">open_in_new</span>
+        </a>
+      ) : (
+        <p className="mt-4 text-center text-sm text-on-surface-variant">
+          No booking channel available yet.
+        </p>
       )}
       <p className="text-xs text-on-surface-variant text-center mt-3 flex items-center justify-center gap-1">
         <span className="material-symbols-outlined text-xs text-tertiary">
