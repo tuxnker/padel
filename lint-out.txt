@@ -1,0 +1,46 @@
+
+> padel-app@0.1.0 lint
+> eslint
+
+
+/Users/raldea/Documents/Code/Padel/padel-app/src/app/layout.tsx
+  48:9  warning  Custom fonts not added in `pages/_document.js` will only load for a single page. This is discouraged. See: https://nextjs.org/docs/messages/no-page-custom-font  @next/next/no-page-custom-font
+
+/Users/raldea/Documents/Code/Padel/padel-app/src/app/profile/page.tsx
+  2:10  warning  'redirect' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/raldea/Documents/Code/Padel/padel-app/src/components/courts/court-card.tsx
+  23:13  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/raldea/Documents/Code/Padel/padel-app/src/components/courts/court-detail-hero.tsx
+  13:9  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/raldea/Documents/Code/Padel/padel-app/src/components/courts/nearby-courts.tsx
+  26:17  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/raldea/Documents/Code/Padel/padel-app/src/components/posts/post-card.tsx
+  31:13  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/raldea/Documents/Code/Padel/padel-app/src/components/profile/profile-header.tsx
+  16:11  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/raldea/Documents/Code/Padel/padel-app/src/hooks/use-realtime-posts.ts
+  14:5  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/Users/raldea/Documents/Code/Padel/padel-app/src/hooks/use-realtime-posts.ts:14:5
+  12 |
+  13 |   useEffect(() => {
+> 14 |     setPosts(initialPosts);
+     |     ^^^^^^^^ Avoid calling setState() directly within an effect
+  15 |   }, [initialPosts]);
+  16 |
+  17 |   useEffect(() => {  react-hooks/set-state-in-effect
+
+✖ 8 problems (1 error, 7 warnings)
+
