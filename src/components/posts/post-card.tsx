@@ -3,6 +3,7 @@
 import type { Post } from "@/types";
 import { getInitials } from "@/lib/utils";
 import Link from "next/link";
+import Image from "next/image";
 import { PostActions } from "./post-actions";
 
 const skillBadgeStyles: Record<string, string> = {
@@ -28,10 +29,12 @@ export function PostCard({ post }: PostCardProps) {
       <div className="flex items-start justify-between">
         <div className="flex items-center gap-3">
           {post.author_avatar_url ? (
-            <img
+            <Image
               src={post.author_avatar_url}
               alt={authorName}
-              className="w-11 h-11 rounded-full object-cover"
+              width={44}
+              height={44}
+              className="rounded-full object-cover"
             />
           ) : (
             <div className="w-11 h-11 rounded-full signature-gradient flex items-center justify-center">

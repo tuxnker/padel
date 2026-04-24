@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { Court } from "@/types";
 
 interface CourtDetailHeroProps {
@@ -10,10 +11,11 @@ export function CourtDetailHero({ court }: CourtDetailHeroProps) {
     <div className="relative h-[397px] overflow-hidden">
       {/* Background */}
       {court.image_url ? (
-        <img
+        <Image
           src={court.image_url}
           alt={court.name}
-          className="w-full h-full object-cover"
+          fill
+          className="object-cover"
         />
       ) : (
         <div className="w-full h-full signature-gradient" />

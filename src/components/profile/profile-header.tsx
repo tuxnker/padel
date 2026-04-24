@@ -1,4 +1,5 @@
 import { getInitials } from "@/lib/utils";
+import Image from "next/image";
 
 interface ProfileHeaderProps {
   name: string;
@@ -13,10 +14,12 @@ export function ProfileHeader({ name, area, avatarUrl }: ProfileHeaderProps) {
     <div className="flex flex-col items-center py-8 px-5">
       <div className="relative">
         {avatarUrl ? (
-          <img
+          <Image
             src={avatarUrl}
             alt={name}
-            className="w-28 h-28 rounded-full object-cover ring-4 ring-primary-container"
+            width={112}
+            height={112}
+            className="rounded-full object-cover ring-4 ring-primary-container"
           />
         ) : (
           <div className="w-28 h-28 rounded-full signature-gradient flex items-center justify-center ring-4 ring-primary-container">

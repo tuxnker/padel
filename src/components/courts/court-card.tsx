@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import type { Court } from "@/types";
 import { formatPrice, formatBookingMethod } from "@/lib/utils";
 
@@ -20,10 +21,11 @@ export function CourtCard({ court, onClose }: CourtCardProps) {
         {/* Court image or gradient fallback */}
         <div className="relative h-48 overflow-hidden">
           {court.image_url ? (
-            <img
+            <Image
               src={court.image_url}
               alt={court.name}
-              className="w-full h-full object-cover"
+              fill
+              className="object-cover"
             />
           ) : (
             <div className="w-full h-full signature-gradient flex items-center justify-center">

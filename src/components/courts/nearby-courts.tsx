@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { Court } from "@/types";
 import { formatPrice } from "@/lib/utils";
 
@@ -23,10 +24,11 @@ export function NearbyCourts({ courts }: NearbyCourtsProps) {
           >
             <div className="h-32 overflow-hidden relative">
               {court.image_url ? (
-                <img
+                <Image
                   src={court.image_url}
                   alt={court.name}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-300"
                 />
               ) : (
                 <div className="w-full h-full signature-gradient flex items-center justify-center">
