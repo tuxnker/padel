@@ -1,26 +1,143 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* === Surface Hierarchy (tonal layering, no borders) === */
+  --color-background: #f0f9f2;
+  --color-on-background: #28312c;
+  --color-surface: #f0f9f2;
+  --color-surface-bright: #f0f9f2;
+  --color-surface-dim: #cad8cf;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #e9f3ec;
+  --color-surface-container: #e0ebe3;
+  --color-surface-container-high: #d9e5dd;
+  --color-surface-container-highest: #d3e0d7;
+  --color-surface-variant: #d3e0d7;
+  --color-surface-tint: #006941;
+  --color-on-surface: #28312c;
+  --color-on-surface-variant: #555d58;
+
+  /* === Primary (court green) === */
+  --color-primary: #006941;
+  --color-primary-dim: #005c38;
+  --color-primary-container: #7bfeb8;
+  --color-primary-fixed: #7bfeb8;
+  --color-primary-fixed-dim: #6cefab;
+  --color-on-primary: #caffdc;
+  --color-on-primary-container: #00603b;
+  --color-on-primary-fixed: #004b2d;
+  --color-on-primary-fixed-variant: #006b43;
+  --color-inverse-primary: #7bfeb8;
+
+  /* === Secondary (teal) === */
+  --color-secondary: #006666;
+  --color-secondary-dim: #005959;
+  --color-secondary-container: #8dedec;
+  --color-secondary-fixed: #8dedec;
+  --color-secondary-fixed-dim: #7fdede;
+  --color-on-secondary: #bbfffe;
+  --color-on-secondary-container: #005858;
+  --color-on-secondary-fixed: #004343;
+  --color-on-secondary-fixed-variant: #006262;
+
+  /* === Tertiary (gold / padel ball) === */
+  --color-tertiary: #6c5a00;
+  --color-tertiary-dim: #5e4e00;
+  --color-tertiary-container: #ffd709;
+  --color-tertiary-fixed: #ffd709;
+  --color-tertiary-fixed-dim: #efc900;
+  --color-on-tertiary: #fff2cd;
+  --color-on-tertiary-container: #5b4b00;
+  --color-on-tertiary-fixed: #453900;
+  --color-on-tertiary-fixed-variant: #665500;
+
+  /* === Error === */
+  --color-error: #b31b25;
+  --color-error-dim: #9f0519;
+  --color-error-container: #fb5151;
+  --color-on-error: #ffefee;
+  --color-on-error-container: #570008;
+
+  /* === Outline === */
+  --color-outline: #707973;
+  --color-outline-variant: #a6afa9;
+
+  /* === Inverse === */
+  --color-inverse-surface: #08100c;
+  --color-inverse-on-surface: #969f99;
+
+  /* === Typography === */
+  --font-headline: var(--font-plus-jakarta-sans);
+  --font-body: var(--font-be-vietnam-pro);
+  --font-label: var(--font-plus-jakarta-sans);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer utilities {
+  .glass {
+    background-color: color-mix(in srgb, var(--color-surface-bright) 70%, transparent);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  .signature-gradient {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-container) 100%);
+  }
+
+  .editorial-shadow {
+    box-shadow: 0 24px 48px -12px rgba(40, 49, 44, 0.06);
+  }
+
+  .ambient-shadow {
+    box-shadow: 0 8px 24px rgba(40, 49, 44, 0.06);
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.3s ease-out;
+}
+
+/* Leaflet overrides */
+.leaflet-container {
+  background: var(--color-surface-container-low) !important;
+}
+.court-tooltip {
+  background: var(--color-surface-container-lowest) !important;
+  border: none !important;
+  box-shadow: 0 8px 24px rgba(40, 49, 44, 0.1) !important;
+  border-radius: 0.75rem !important;
+  padding: 6px 12px !important;
+  font-family: var(--font-headline) !important;
+}
+.court-tooltip::before {
+  border-bottom-color: var(--color-surface-container-lowest) !important;
+}
+.custom-pin {
+  background: none !important;
+  border: none !important;
+}
+
+.material-symbols-outlined {
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+}
+.fill-icon {
+  font-variation-settings: "FILL" 1;
 }

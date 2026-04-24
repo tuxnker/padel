@@ -6,20 +6,39 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "scrape:courts": "node --no-warnings --experimental-strip-types scripts/scraper.ts",
+    "enrich:courts": "node --no-warnings --experimental-strip-types scripts/enrich-court-data.ts",
+    "localize:court-images": "node --no-warnings --experimental-strip-types scripts/localize-court-images.ts",
+    "verify:booking-links": "node --no-warnings --experimental-strip-types scripts/verify-booking-links.ts",
+    "verify:db-booking-links": "node --no-warnings --experimental-strip-types scripts/verify-db-booking-links.ts",
+    "seed:courts": "node --no-warnings --experimental-strip-types scripts/seed.ts",
+    "verify:courts": "node --no-warnings --experimental-strip-types scripts/verify-courts.ts",
     "lint": "eslint"
   },
   "dependencies": {
+    "@supabase/ssr": "^0.10.2",
+    "@supabase/supabase-js": "^2.104.1",
+    "clsx": "^2.1.1",
+    "leaflet": "^1.9.4",
     "next": "16.2.4",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "react-leaflet": "^5.0.0",
+    "tailwind-merge": "^3.5.0",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
+    "@ai-sdk/openai": "^3.0.53",
     "@tailwindcss/postcss": "^4",
+    "@types/leaflet": "^1.9.21",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "ai": "^6.0.168",
+    "dotenv": "^17.4.2",
     "eslint": "^9",
     "eslint-config-next": "16.2.4",
+    "playwright": "^1.59.1",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
