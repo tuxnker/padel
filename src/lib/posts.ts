@@ -122,3 +122,41 @@ export async function fetchCourtsForPicker(
   if (error || !data) return [];
   return data as Array<{ id: string; name: string }>;
 }
+
+export async function isJoinedByUser(
+  supabase: SupabaseClient,
+  postId: string,
+  userId: string,
+): Promise<boolean> {
+  const { data } = await supabase
+    .from("responses")
+    .select("id")
+    .eq("post_id", postId)
+    .eq("user_id", userId)
+    .maybeSingle();
+  return Boolean(data);
+}
+
+export async function joinPost(
+  supabase: SupabaseClient,
+  postId: string,
+  userId: string,
+): Promise<{ error: string | null }> {
+  const { error } = await supabase
+    .from("responses")
+    .insert({ post_id: postId, user_id: userId });
+  return { error: error?.message ?? null };
+}
+
+export async function leavePost(
+  supabase: SupabaseClient,
+  postId: string,
+  userId: string,
+): Promise<{ error: string | null }> {
+  const { error } = await supabase
+    .from("responses")
+    .delete()
+    .eq("post_id", postId)
+    .eq("user_id", userId);
+  return { error: error?.message ?? null };
+}

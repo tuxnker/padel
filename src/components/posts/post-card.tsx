@@ -3,6 +3,7 @@
 import type { Post } from "@/types";
 import { getInitials } from "@/lib/utils";
 import Link from "next/link";
+import { PostActions } from "./post-actions";
 
 const skillBadgeStyles: Record<string, string> = {
   beginner: "bg-surface-variant text-on-surface-variant",
@@ -70,9 +71,7 @@ export function PostCard({ post }: PostCardProps) {
             {spotsLeft} spot{spotsLeft !== 1 ? "s" : ""} left
           </span>
         </div>
-        <button className="px-6 py-2.5 rounded-full bg-primary text-on-primary font-headline text-sm font-bold uppercase tracking-wider active:scale-95 transition-transform">
-          I&apos;m in
-        </button>
+        <PostActions post={post} />
       </div>
     </div>
   );
