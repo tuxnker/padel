@@ -110,3 +110,15 @@ export async function fetchPostsForCourt(
   }
   return (data as unknown as JoinedRow[]).map(flattenPostRow);
 }
+
+export async function fetchCourtsForPicker(
+  supabase: SupabaseClient,
+): Promise<Array<{ id: string; name: string }>> {
+  const { data, error } = await supabase
+    .from("courts")
+    .select("id, name")
+    .eq("status", "open")
+    .order("name", { ascending: true });
+  if (error || !data) return [];
+  return data as Array<{ id: string; name: string }>;
+}
