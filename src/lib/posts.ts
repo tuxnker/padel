@@ -1,5 +1,6 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Post } from "@/types";
+import { dublinToday } from "@/lib/dates";
 
 export const POST_WITH_RELATIONS_SELECT = `
   id,
@@ -15,10 +16,10 @@ export const POST_WITH_RELATIONS_SELECT = `
   status,
   created_at,
   author:users!posts_author_id_fkey ( name, skill_level, avatar_url ),
-  court:courts!posts_court_id_fkey ( name, slug )
+  court:courts!posts_court_id_fkey ( name, slug, latitude, longitude )
 `;
 
-type JoinedRow = {
+export type JoinedRow = {
   id: string;
   author_id: string;
   court_id: string | null;
@@ -32,7 +33,7 @@ type JoinedRow = {
   status: Post["status"];
   created_at: string;
   author: { name: string; skill_level: Post["author_skill_level"]; avatar_url: string | null } | null;
-  court: { name: string; slug: string } | null;
+  court: { name: string; slug: string; latitude: number | null; longitude: number | null } | null;
 };
 
 export function flattenPostRow(row: JoinedRow): Post {
@@ -54,6 +55,8 @@ export function flattenPostRow(row: JoinedRow): Post {
     author_avatar_url: row.author?.avatar_url ?? null,
     court_name: row.court?.name ?? row.court_name_override ?? undefined,
     court_slug: row.court?.slug,
+    court_latitude: row.court?.latitude ?? null,
+    court_longitude: row.court?.longitude ?? null,
   };
 }
 
@@ -65,7 +68,7 @@ export async function fetchOpenPosts(
     .from("posts")
     .select(POST_WITH_RELATIONS_SELECT)
     .in("status", ["open", "full"])
-    .gte("play_date", new Date().toISOString().slice(0, 10))
+    .gte("play_date", dublinToday())
     .order("play_date", { ascending: true })
     .order("play_time", { ascending: true })
     .limit(limit);
@@ -100,7 +103,7 @@ export async function fetchPostsForCourt(
     .select(POST_WITH_RELATIONS_SELECT)
     .eq("court_id", courtId)
     .eq("status", "open")
-    .gte("play_date", new Date().toISOString().slice(0, 10))
+    .gte("play_date", dublinToday())
     .order("play_date", { ascending: true })
     .order("play_time", { ascending: true })
     .limit(limit);
@@ -111,16 +114,24 @@ export async function fetchPostsForCourt(
   return (data as unknown as JoinedRow[]).map(flattenPostRow);
 }
 
+export type PickerCourt = {
+  id: string;
+  name: string;
+  slug: string;
+  latitude: number | null;
+  longitude: number | null;
+};
+
 export async function fetchCourtsForPicker(
   supabase: SupabaseClient,
-): Promise<Array<{ id: string; name: string }>> {
+): Promise<PickerCourt[]> {
   const { data, error } = await supabase
     .from("courts")
-    .select("id, name")
+    .select("id, name, slug, latitude, longitude")
     .eq("status", "open")
     .order("name", { ascending: true });
   if (error || !data) return [];
-  return data as Array<{ id: string; name: string }>;
+  return data as PickerCourt[];
 }
 
 export async function isJoinedByUser(
@@ -140,11 +151,8 @@ export async function isJoinedByUser(
 export async function joinPost(
   supabase: SupabaseClient,
   postId: string,
-  userId: string,
 ): Promise<{ error: string | null }> {
-  const { error } = await supabase
-    .from("responses")
-    .insert({ post_id: postId, user_id: userId });
+  const { error } = await supabase.rpc("join_post", { p_post_id: postId });
   return { error: error?.message ?? null };
 }
 

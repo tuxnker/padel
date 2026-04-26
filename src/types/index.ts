@@ -57,6 +57,8 @@ export interface Post {
   author_avatar_url?: string | null;
   court_name?: string;
   court_slug?: string;
+  court_latitude?: number | null;
+  court_longitude?: number | null;
 }
 
 export interface PostResponse {

@@ -1,11 +1,25 @@
 import type { Court } from "@/types";
 import { formatPrice } from "@/lib/utils";
+import { CourtMiniMapClient } from "./court-mini-map-client";
 
 interface CourtInfoCardsProps {
   court: Court;
 }
 
+const DAY_ORDER: Array<{ key: string; label: string }> = [
+  { key: "Monday", label: "Mon" },
+  { key: "Tuesday", label: "Tue" },
+  { key: "Wednesday", label: "Wed" },
+  { key: "Thursday", label: "Thu" },
+  { key: "Friday", label: "Fri" },
+  { key: "Saturday", label: "Sat" },
+  { key: "Sunday", label: "Sun" },
+];
+
 export function CourtInfoCards({ court }: CourtInfoCardsProps) {
+  const hasPublicPrice =
+    !court.membership_required && court.price_offpeak_eur != null;
+
   return (
     <div className="space-y-4">
       {/* Opening Hours */}
@@ -20,15 +34,19 @@ export function CourtInfoCards({ court }: CourtInfoCardsProps) {
             </h3>
           </div>
           <div className="space-y-2">
-            {Object.entries(court.hours).map(([day, hours]) => (
-              <div
-                key={day}
-                className="flex items-center justify-between font-body text-sm"
-              >
-                <span className="text-on-surface-variant">{day}</span>
-                <span className="text-on-surface font-medium">{hours}</span>
-              </div>
-            ))}
+            {DAY_ORDER.map(({ key, label }) => {
+              const hours = court.hours?.[key];
+              if (!hours) return null;
+              return (
+                <div
+                  key={key}
+                  className="flex items-center justify-between font-body text-sm"
+                >
+                  <span className="text-on-surface-variant">{label}</span>
+                  <span className="text-on-surface font-medium">{hours}</span>
+                </div>
+              );
+            })}
           </div>
         </div>
       )}
@@ -37,22 +55,13 @@ export function CourtInfoCards({ court }: CourtInfoCardsProps) {
       <div className="bg-surface-container-low rounded-2xl p-5 border-l-4 border-tertiary">
         <div className="flex items-center gap-2 mb-4">
           <span className="material-symbols-outlined text-tertiary">
-            {court.membership_required ? "id_card" : "payments"}
+            {hasPublicPrice ? "payments" : "id_card"}
           </span>
           <h3 className="font-headline text-lg font-bold text-on-surface">
-            {court.membership_required ? "Access" : "Price Info"}
+            {hasPublicPrice ? "Price Info" : "Access"}
           </h3>
         </div>
-        {court.membership_required ? (
-          <>
-            <p className="font-headline text-3xl font-extrabold text-on-surface">
-              Membership required
-            </p>
-            <p className="text-sm text-on-surface-variant mt-2">
-              This venue is private or member-only, so hourly court rental prices are not listed.
-            </p>
-          </>
-        ) : (
+        {hasPublicPrice ? (
           <>
             <p className="text-sm text-on-surface-variant mb-1">
               Court rental starts from:
@@ -63,27 +72,29 @@ export function CourtInfoCards({ court }: CourtInfoCardsProps) {
                 /hr
               </span>
             </p>
-            {court.price_peak_eur && (
+            {court.price_peak_eur != null && (
               <p className="text-xs text-on-surface-variant mt-1 font-headline uppercase tracking-wider">
                 Peak times: {formatPrice(court.price_peak_eur)}/hr
               </p>
             )}
+          </>
+        ) : (
+          <>
+            <p className="font-headline text-3xl font-extrabold text-on-surface">
+              {court.membership_required ? "Membership required" : "Contact venue"}
+            </p>
+            <p className="text-sm text-on-surface-variant mt-2">
+              {court.membership_required
+                ? "This venue is private or member-only, so hourly court rental prices are not listed."
+                : "This venue hasn't published an hourly rate. Use the booking links to check pricing."}
+            </p>
           </>
         )}
       </div>
 
       {/* Map snippet */}
       <div className="bg-surface-container-low rounded-2xl overflow-hidden">
-        <div className="h-40 bg-surface-container relative flex items-center justify-center">
-          <div className="text-center">
-            <span className="material-symbols-outlined text-primary text-3xl">
-              location_on
-            </span>
-            <p className="font-headline text-sm font-bold text-on-surface mt-1">
-              {court.name}
-            </p>
-          </div>
-        </div>
+        <CourtMiniMapClient lat={court.latitude} lng={court.longitude} name={court.name} />
         <a
           href={`https://www.google.com/maps/search/?api=1&query=${court.latitude},${court.longitude}`}
           target="_blank"

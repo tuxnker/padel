@@ -12,7 +12,7 @@ export const createPostSchema = z
   })
   .refine((v) => Boolean(v.courtId) || Boolean(v.courtNameOverride), {
     message: "Pick a court or enter a venue name",
-    path: ["courtId"],
+    path: ["court"],
   });
 
 export const updateProfileSchema = z.object({

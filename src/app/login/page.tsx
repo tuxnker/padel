@@ -1,8 +1,13 @@
+import { Suspense } from "react";
 import { LoginForm } from "@/components/auth/login-form";
 
-export const metadata = {
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
   title: "Sign In",
   description: "Sign in to Padel Connect to find players and join games.",
+  robots: { index: false, follow: false },
+  alternates: { canonical: "/login" },
 };
 
 export default function LoginPage() {
@@ -25,7 +30,9 @@ export default function LoginPage() {
         </div>
 
         {/* Form */}
-        <LoginForm />
+        <Suspense fallback={null}>
+          <LoginForm />
+        </Suspense>
 
         {/* Footer */}
         <p className="text-xs text-center text-on-surface-variant">

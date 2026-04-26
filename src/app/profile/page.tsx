@@ -29,7 +29,7 @@ export default async function ProfilePage() {
           Track your games, connect with players, and manage your settings.
         </p>
         <Link
-          href="/login"
+          href="/login?next=%2Fprofile"
           className="px-8 py-3 rounded-2xl signature-gradient text-on-primary font-headline font-bold text-sm uppercase tracking-wider"
         >
           Sign In
@@ -65,7 +65,7 @@ export default async function ProfilePage() {
         initialSkillLevel={skillLevel}
         initialArea={profile?.area ?? null}
       />
-      <ActivityList />
+      <ActivityList userId={user.id} />
       <div className="px-5 space-y-1">
         <h2 className="font-headline text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-3">
           Account Settings

@@ -1,9 +1,18 @@
 "use client";
 
 import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 
 export function LoginForm() {
+  const searchParams = useSearchParams();
+  const next = searchParams.get("next") ?? "";
+  const callbackUrl = (origin: string) => {
+    const url = new URL("/auth/callback", origin);
+    if (next) url.searchParams.set("next", next);
+    return url.toString();
+  };
+
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [magicLinkSent, setMagicLinkSent] = useState(false);
@@ -21,7 +30,7 @@ export function LoginForm() {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
+        redirectTo: callbackUrl(window.location.origin),
       },
     });
     if (error) setError(error.message);
@@ -41,7 +50,7 @@ export function LoginForm() {
     const { error } = await supabase.auth.signInWithOtp({
       email,
       options: {
-        emailRedirectTo: `${window.location.origin}/auth/callback`,
+        emailRedirectTo: callbackUrl(window.location.origin),
       },
     });
 

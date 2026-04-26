@@ -57,7 +57,7 @@ export function PostActions({ post }: PostActionsProps) {
     setBusy(true);
     const { error } = joined
       ? await leavePost(supabase, post.id, user.id)
-      : await joinPost(supabase, post.id, user.id);
+      : await joinPost(supabase, post.id);
     setBusy(false);
     if (!error) {
       setJoined((v) => !v);

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import type { Court } from "@/types";
-import { formatPrice } from "@/lib/utils";
+import { formatPricePerHourOrNull } from "@/lib/utils";
 
 interface NearbyCourtsProps {
   courts: Court[];
@@ -47,8 +47,9 @@ export function NearbyCourts({ courts }: NearbyCourtsProps) {
                   court.court_type.slice(1)}{" "}
                 •{" "}
                 {court.membership_required
-                  ? "Membership required"
-                  : `${formatPrice(court.price_offpeak_eur)}/hr`}
+                  ? "Members only"
+                  : (formatPricePerHourOrNull(court.price_offpeak_eur) ??
+                    "Pricing on request")}
               </p>
             </div>
           </Link>

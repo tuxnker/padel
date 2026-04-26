@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import type { Court } from "@/types";
-import { formatPrice, formatBookingMethod } from "@/lib/utils";
+import { formatBookingMethod, formatPricePerHourOrNull } from "@/lib/utils";
 
 interface CourtCardProps {
   court: Court;
@@ -12,8 +12,9 @@ interface CourtCardProps {
 
 export function CourtCard({ court, onClose }: CourtCardProps) {
   const priceLabel = court.membership_required
-    ? "Membership required"
-    : `${formatPrice(court.price_offpeak_eur)}/hr`;
+    ? "Members only"
+    : (formatPricePerHourOrNull(court.price_offpeak_eur) ??
+      "Pricing on request");
 
   return (
     <div className="absolute bottom-4 left-4 right-4 z-20 animate-slide-up">

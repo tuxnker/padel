@@ -50,6 +50,9 @@ export function CourtPin({ court, isSelected, onClick }: CourtPinProps) {
       position={[court.latitude, court.longitude]}
       icon={createPinIcon(isSelected)}
       eventHandlers={{ click: onClick }}
+      title={court.name}
+      alt={court.name}
+      keyboard={true}
     >
       {!isSelected && (
         <Tooltip

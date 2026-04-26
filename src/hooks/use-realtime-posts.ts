@@ -11,11 +11,6 @@ export function useRealtimePosts(initialPosts: Post[]) {
   const supabase = useMemo(() => createClient(), []);
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setPosts(initialPosts);
-  }, [initialPosts]);
-
-  useEffect(() => {
     if (!supabase) return;
 
     const channel = supabase

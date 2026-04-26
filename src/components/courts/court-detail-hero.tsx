@@ -15,6 +15,7 @@ export function CourtDetailHero({ court }: CourtDetailHeroProps) {
           src={court.image_url}
           alt={court.name}
           fill
+          priority
           className="object-cover"
         />
       ) : (

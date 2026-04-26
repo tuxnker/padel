@@ -11,6 +11,8 @@ import Link from "next/link";
 import seedCourts from "@/data/courts-seed.json";
 import { fetchPostsForCourt } from "@/lib/posts";
 import { PostCard } from "@/components/posts/post-card";
+import { humaniseAmenity } from "@/lib/labels";
+import { absoluteUrl, SITE_NAME } from "@/lib/site";
 
 type SeedCourt = Omit<Court, "id" | "email"> & {
   id?: string;
@@ -37,14 +39,28 @@ export async function generateMetadata({
   const { data: court } = await supabase.from("courts").select("*").eq("slug", slug).single();
   const resolvedCourt = (court as Court | null) ?? getFallbackCourt(slug);
   
-  if (!resolvedCourt) return { title: "Court Not Found" };
+  if (!resolvedCourt) return { title: "Court Not Found", robots: { index: false, follow: false } };
+
+  const description = `${resolvedCourt.name} in ${resolvedCourt.address}. ${resolvedCourt.court_count} ${resolvedCourt.court_type} padel courts${resolvedCourt.membership_required ? " (members only)" : ""}. View prices, amenities and booking info.`;
+  const canonical = `/courts/${resolvedCourt.slug}`;
+  const ogImage = resolvedCourt.image_url ?? undefined;
 
   return {
-    title: `${resolvedCourt.name} - Padel Courts`,
-    description: `${resolvedCourt.name} in ${resolvedCourt.address}. ${resolvedCourt.court_count} ${resolvedCourt.court_type} courts${resolvedCourt.membership_required ? " with member access required" : ""}.`,
+    title: `${resolvedCourt.name} - Padel Court`,
+    description,
+    alternates: { canonical },
     openGraph: {
+      type: "website",
+      title: `${resolvedCourt.name} | ${SITE_NAME}`,
+      description,
+      url: absoluteUrl(canonical),
+      images: ogImage ? [{ url: ogImage }] : undefined,
+    },
+    twitter: {
+      card: ogImage ? "summary_large_image" : "summary",
       title: resolvedCourt.name,
-      description: `${resolvedCourt.court_count} padel courts in ${resolvedCourt.address}`,
+      description,
+      images: ogImage ? [ogImage] : undefined,
     },
   };
 }
@@ -82,8 +98,79 @@ export default async function CourtDetailPage({
     ? await fetchPostsForCourt(supabase, resolvedCourt.id)
     : [];
 
+  const canonicalPath = `/courts/${resolvedCourt.slug}`;
+  const sportsLocationJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "SportsActivityLocation",
+    "@id": absoluteUrl(canonicalPath),
+    name: resolvedCourt.name,
+    url: absoluteUrl(canonicalPath),
+    image: resolvedCourt.image_url ?? undefined,
+    telephone: resolvedCourt.phone ?? undefined,
+    sport: "Padel",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: resolvedCourt.address,
+      postalCode: resolvedCourt.eircode ?? undefined,
+      addressCountry: "IE",
+    },
+    geo:
+      Number.isFinite(resolvedCourt.latitude) &&
+      Number.isFinite(resolvedCourt.longitude) &&
+      Math.abs(resolvedCourt.latitude) > 0 &&
+      Math.abs(resolvedCourt.longitude) > 0
+        ? {
+            "@type": "GeoCoordinates",
+            latitude: resolvedCourt.latitude,
+            longitude: resolvedCourt.longitude,
+          }
+        : undefined,
+    amenityFeature: resolvedCourt.amenities?.map((amenity) => ({
+      "@type": "LocationFeatureSpecification",
+      name: humaniseAmenity(amenity),
+    })),
+    priceRange:
+      resolvedCourt.price_offpeak_eur !== null ||
+      resolvedCourt.price_peak_eur !== null
+        ? `€${resolvedCourt.price_offpeak_eur ?? resolvedCourt.price_peak_eur}–€${resolvedCourt.price_peak_eur ?? resolvedCourt.price_offpeak_eur}`
+        : undefined,
+  };
+
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: absoluteUrl("/"),
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Courts",
+        item: absoluteUrl("/courts"),
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: resolvedCourt.name,
+        item: absoluteUrl(canonicalPath),
+      },
+    ],
+  };
+
   return (
     <div className="-mt-16">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(sportsLocationJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <CourtDetailHero court={resolvedCourt} />
 
       <div className="px-5 pb-32 space-y-8">
@@ -154,16 +241,8 @@ export default async function CourtDetailPage({
                   <span className="material-symbols-outlined text-primary text-xl">
                     check_circle
                   </span>
-                  <span className="font-body text-sm text-on-surface capitalize">
-                    {amenity === "pro_shop"
-                      ? "Pro Shop"
-                      : amenity === "floodlights"
-                      ? "Professional Floodlighting"
-                      : amenity === "rental"
-                      ? "Equipment Rental Available"
-                      : amenity === "coaching"
-                      ? "Coaching & Training Programs"
-                      : amenity.charAt(0).toUpperCase() + amenity.slice(1)}
+                  <span className="font-body text-sm text-on-surface">
+                    {humaniseAmenity(amenity)}
                   </span>
                 </div>
               ))}

@@ -5,34 +5,111 @@ import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
 import { createPostSchema } from "@/lib/validators";
-import { fetchCourtsForPicker } from "@/lib/posts";
+import { fetchCourtsForPicker, type PickerCourt } from "@/lib/posts";
+import { dublinToday } from "@/lib/dates";
+import type { LatLng } from "@/lib/geo";
+import { haversineKm } from "@/lib/geo";
+import type { UserLocationStatus } from "@/hooks/use-user-location";
 
 interface CreatePostDialogProps {
   open: boolean;
   onClose: () => void;
+  initialCourtSlug?: string | null;
+  userLocation?: LatLng | null;
+  onRequestLocation?: () => void;
+  locationStatus?: UserLocationStatus;
 }
 
 type SkillLevel = "any" | "beginner" | "intermediate" | "advanced";
 
-export function CreatePostDialog({ open, onClose }: CreatePostDialogProps) {
+export function CreatePostDialog({
+  open,
+  onClose,
+  initialCourtSlug,
+  userLocation,
+  onRequestLocation,
+  locationStatus,
+}: CreatePostDialogProps) {
   const router = useRouter();
   const { user } = useAuth();
   const supabase = useMemo(() => createClient(), []);
 
-  const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
+  const [date, setDate] = useState(dublinToday());
   const [time, setTime] = useState("18:00");
   const [skillLevel, setSkillLevel] = useState<SkillLevel>("any");
   const [playersNeeded, setPlayersNeeded] = useState(1);
   const [message, setMessage] = useState("");
   const [courtId, setCourtId] = useState<string>("");
-  const [courts, setCourts] = useState<Array<{ id: string; name: string }>>([]);
+  const [courtNameOverride, setCourtNameOverride] = useState("");
+  const [venueMode, setVenueMode] = useState<"picker" | "other">("picker");
+  const [courts, setCourts] = useState<PickerCourt[]>([]);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!open || !supabase) return;
-    fetchCourtsForPicker(supabase).then(setCourts);
-  }, [open, supabase]);
+    fetchCourtsForPicker(supabase).then((rows) => {
+      setCourts(rows);
+      if (initialCourtSlug) {
+        const match = rows.find((r) => r.slug === initialCourtSlug);
+        if (match) {
+          setCourtId(match.id);
+          setVenueMode("picker");
+        }
+      }
+    });
+  }, [open, supabase, initialCourtSlug]);
+
+  const sortedCourts = useMemo(() => {
+    if (!userLocation) return courts;
+    const decorated = courts.map((c) => {
+      const lat = c.latitude;
+      const lng = c.longitude;
+      const distance =
+        typeof lat === "number" &&
+        typeof lng === "number" &&
+        Number.isFinite(lat) &&
+        Number.isFinite(lng) &&
+        Math.abs(lat) > 0 &&
+        Math.abs(lng) > 0
+          ? haversineKm(userLocation, { lat, lng })
+          : Number.POSITIVE_INFINITY;
+      return { court: c, distance };
+    });
+    decorated.sort((a, b) => a.distance - b.distance);
+    return decorated.map((d) => ({ ...d.court, _distance: d.distance }));
+  }, [courts, userLocation]);
+
+  const handleUseNearest = () => {
+    const loc = userLocation ?? null;
+    if (!loc && onRequestLocation) {
+      onRequestLocation();
+      return;
+    }
+    if (!loc) return;
+    const eligible = courts
+      .map((c) => {
+        const lat = c.latitude;
+        const lng = c.longitude;
+        if (
+          typeof lat !== "number" ||
+          typeof lng !== "number" ||
+          !Number.isFinite(lat) ||
+          !Number.isFinite(lng) ||
+          Math.abs(lat) === 0 ||
+          Math.abs(lng) === 0
+        ) {
+          return null;
+        }
+        return { court: c, distance: haversineKm(loc, { lat, lng }) };
+      })
+      .filter((x): x is { court: PickerCourt; distance: number } => x !== null)
+      .sort((a, b) => a.distance - b.distance);
+    if (eligible.length > 0) {
+      setCourtId(eligible[0].court.id);
+      setVenueMode("picker");
+    }
+  };
 
   if (!open) return null;
 
@@ -50,7 +127,9 @@ export function CreatePostDialog({ open, onClose }: CreatePostDialogProps) {
     }
 
     const parsed = createPostSchema.safeParse({
-      courtId: courtId || undefined,
+      courtId: venueMode === "picker" ? (courtId || undefined) : undefined,
+      courtNameOverride:
+        venueMode === "other" ? courtNameOverride.trim() || undefined : undefined,
       playDate: date,
       playTime: time,
       skillLevel,
@@ -66,6 +145,7 @@ export function CreatePostDialog({ open, onClose }: CreatePostDialogProps) {
     const { error: insertError } = await supabase.from("posts").insert({
       author_id: user.id,
       court_id: parsed.data.courtId ?? null,
+      court_name_override: parsed.data.courtNameOverride ?? null,
       play_date: parsed.data.playDate,
       play_time: parsed.data.playTime,
       skill_level: parsed.data.skillLevel,
@@ -84,16 +164,34 @@ export function CreatePostDialog({ open, onClose }: CreatePostDialogProps) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center">
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="create-post-title"
+      className="fixed inset-0 z-[60] flex items-end justify-center"
+    >
       <div
         className="absolute inset-0 bg-inverse-surface/40 backdrop-blur-sm"
         onClick={onClose}
       />
       <div className="relative w-full max-w-lg bg-surface-container-lowest rounded-t-3xl p-6 pb-10 animate-slide-up">
         <div className="w-10 h-1 bg-outline-variant/30 rounded-full mx-auto mb-6" />
-        <h2 className="font-headline text-xl font-extrabold text-on-surface mb-6">
-          Find Players
-        </h2>
+        <div className="flex items-center justify-between mb-6">
+          <h2
+            id="create-post-title"
+            className="font-headline text-xl font-extrabold text-on-surface"
+          >
+            Find Players
+          </h2>
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Close"
+            className="w-9 h-9 -mr-1 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container-low active:scale-95 transition-transform"
+          >
+            <span className="material-symbols-outlined">close</span>
+          </button>
+        </div>
 
         <form onSubmit={handleSubmit} className="space-y-5">
           {/* Date & Time */}
@@ -105,7 +203,7 @@ export function CreatePostDialog({ open, onClose }: CreatePostDialogProps) {
               <input
                 type="date"
                 value={date}
-                min={new Date().toISOString().split("T")[0]}
+                min={dublinToday()}
                 onChange={(e) => setDate(e.target.value)}
                 className="w-full h-11 px-3 rounded-xl bg-surface-container-low text-on-surface font-body text-sm focus:outline-none focus:ring-2 focus:ring-primary/20"
                 required
@@ -125,22 +223,81 @@ export function CreatePostDialog({ open, onClose }: CreatePostDialogProps) {
             </div>
           </div>
 
-          {/* Court */}
+          {/* Venue */}
           <div>
-            <label className="font-headline text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1.5 block">
-              Where
-            </label>
-            <select
-              value={courtId}
-              onChange={(e) => setCourtId(e.target.value)}
-              className="w-full h-11 px-3 rounded-xl bg-surface-container-low text-on-surface font-body text-sm focus:outline-none focus:ring-2 focus:ring-primary/20"
-              required
-            >
-              <option value="" disabled>Pick a venue…</option>
-              {courts.map((c) => (
-                <option key={c.id} value={c.id}>{c.name}</option>
-              ))}
-            </select>
+            <div className="flex items-center justify-between mb-1.5">
+              <label className="font-headline text-xs font-bold uppercase tracking-wider text-on-surface-variant">
+                Where
+              </label>
+              <div className="flex gap-1 text-xs">
+                <button
+                  type="button"
+                  onClick={() => setVenueMode("picker")}
+                  className={`px-2 py-0.5 rounded-full font-headline font-bold uppercase ${
+                    venueMode === "picker"
+                      ? "bg-primary text-on-primary"
+                      : "bg-surface-container-low text-on-surface-variant"
+                  }`}
+                >
+                  Listed
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setVenueMode("other")}
+                  className={`px-2 py-0.5 rounded-full font-headline font-bold uppercase ${
+                    venueMode === "other"
+                      ? "bg-primary text-on-primary"
+                      : "bg-surface-container-low text-on-surface-variant"
+                  }`}
+                >
+                  Other
+                </button>
+              </div>
+            </div>
+            {venueMode === "picker" ? (
+              <div className="space-y-2">
+                <select
+                  value={courtId}
+                  onChange={(e) => setCourtId(e.target.value)}
+                  className="w-full h-11 px-3 rounded-xl bg-surface-container-low text-on-surface font-body text-sm focus:outline-none focus:ring-2 focus:ring-primary/20"
+                  required
+                >
+                  <option value="" disabled>
+                    {userLocation ? "Pick a venue (sorted by distance)…" : "Pick a venue…"}
+                  </option>
+                  {sortedCourts.map((c) => {
+                    const distance = (c as PickerCourt & { _distance?: number })._distance;
+                    const showDistance =
+                      typeof distance === "number" && Number.isFinite(distance);
+                    return (
+                      <option key={c.id} value={c.id}>
+                        {c.name}
+                        {showDistance ? ` — ${distance.toFixed(1)} km` : ""}
+                      </option>
+                    );
+                  })}
+                </select>
+                <button
+                  type="button"
+                  onClick={handleUseNearest}
+                  disabled={locationStatus === "loading" || locationStatus === "unavailable"}
+                  className="text-xs font-headline font-bold uppercase tracking-wider text-secondary inline-flex items-center gap-1 disabled:opacity-50"
+                >
+                  <span className="material-symbols-outlined text-sm">near_me</span>
+                  {userLocation ? "Pick nearest court" : "Use my location"}
+                </button>
+              </div>
+            ) : (
+              <input
+                type="text"
+                value={courtNameOverride}
+                onChange={(e) => setCourtNameOverride(e.target.value)}
+                placeholder="Venue name"
+                maxLength={100}
+                className="w-full h-11 px-3 rounded-xl bg-surface-container-low text-on-surface font-body text-sm focus:outline-none focus:ring-2 focus:ring-primary/20"
+                required
+              />
+            )}
           </div>
 
           {/* Skill Level */}

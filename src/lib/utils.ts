@@ -19,6 +19,11 @@ export function formatPrice(price: number | null): string {
   return `\u20AC${price.toFixed(0)}`;
 }
 
+export function formatPricePerHourOrNull(price: number | null): string | null {
+  if (price === null) return null;
+  return `${formatPrice(price)}/hr`;
+}
+
 export function formatBookingMethod(method: string | null): string {
   switch (method) {
     case "playtomic":

@@ -1,3 +1,5 @@
+import { humaniseAmenity } from "@/lib/labels";
+
 const amenityIcons: Record<string, string> = {
   cafe: "coffee",
   parking: "local_parking",
@@ -27,7 +29,7 @@ export function CourtAmenities({ amenities }: CourtAmenitiesProps) {
             {amenityIcons[amenity] || "check_circle"}
           </span>
           <span className="font-headline text-xs font-bold uppercase tracking-wider text-on-surface-variant">
-            {amenity === "pro_shop" ? "Pro Shop" : amenity}
+            {humaniseAmenity(amenity)}
           </span>
         </div>
       ))}
