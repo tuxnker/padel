@@ -7,6 +7,7 @@
   "background_color": "#0B1220",
   "theme_color": "#00E6B2",
   "icons": [
-    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+    { "src": "/brand/icon-monogram.png", "sizes": "1254x1254", "type": "image/png", "purpose": "any" },
+    { "src": "/brand/app-icon.png", "sizes": "1254x1254", "type": "image/png", "purpose": "maskable" }
   ]
 }

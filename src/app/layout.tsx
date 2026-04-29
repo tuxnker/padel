@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-page-custom-font */
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, Be_Vietnam_Pro } from "next/font/google";
+import { Plus_Jakarta_Sans, Be_Vietnam_Pro, Space_Grotesk } from "next/font/google";
 import { TopBar } from "@/components/layout/top-bar";
 import { BottomNav } from "@/components/layout/bottom-nav";
 import { SocialFab } from "@/components/layout/social-fab";
@@ -18,6 +18,13 @@ const beVietnamPro = Be_Vietnam_Pro({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
   variable: "--font-be-vietnam-pro",
+  display: "swap",
+});
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-space-grotesk",
   display: "swap",
 });
 
@@ -54,12 +61,27 @@ export const metadata: Metadata = {
     title: `${SITE_NAME} - Find one more player. Fill games. Play more.`,
     description:
       "Find one more player and fill your padel game. Connect with players at courts near you.",
+    images: [
+      {
+        url: "/brand/og-card.png",
+        width: 1731,
+        height: 909,
+        alt: `${SITE_NAME} - Find one more player. Play more.`,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: `${SITE_NAME} - One More Player`,
     description:
       "Find one more player and fill your padel game. Open games at courts near you.",
+    images: ["/brand/og-card.png"],
+  },
+  icons: {
+    icon: [
+      { url: "/brand/icon-monogram.png", type: "image/png" },
+    ],
+    apple: [{ url: "/brand/app-icon.png" }],
   },
   robots: {
     index: true,
@@ -95,7 +117,7 @@ const organizationJsonLd = {
   "@type": "Organization",
   name: SITE_NAME,
   url: SITE_URL,
-  logo: absoluteUrl("/icon.svg"),
+  logo: absoluteUrl("/brand/icon-monogram.png"),
   areaServed: {
     "@type": "Country",
     name: "Ireland",
@@ -110,7 +132,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${plusJakartaSans.variable} ${beVietnamPro.variable}`}
+      className={`${plusJakartaSans.variable} ${beVietnamPro.variable} ${spaceGrotesk.variable}`}
     >
       <head>
         <link

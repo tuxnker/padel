@@ -144,6 +144,11 @@
 
   --shadow-editorial: 0 24px 48px -12px rgba(0, 0, 0, 0.45);
   --shadow-ambient: 0 8px 24px rgba(0, 0, 0, 0.35);
+
+  /* OM Player uses Space Grotesk across headline and body */
+  --font-headline: var(--font-space-grotesk);
+  --font-body: var(--font-space-grotesk);
+  --font-label: var(--font-space-grotesk);
 }
 
 @layer utilities {
@@ -212,6 +217,12 @@
   background: none !important;
   border: none !important;
 }
+
+/* Brand wordmark: show image on dark scheme, text on light scheme */
+.brand-wordmark-image { display: none; }
+.brand-wordmark-text { display: inline-flex; }
+[data-theme="om-player"] .brand-wordmark-image { display: inline-block; }
+[data-theme="om-player"] .brand-wordmark-text { display: none; }
 
 .material-symbols-outlined {
   font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
