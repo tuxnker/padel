@@ -1,3 +1,5 @@
+"use client";
+
 import { getInitials } from "@/lib/utils";
 import Image from "next/image";
 
@@ -5,9 +7,10 @@ interface ProfileHeaderProps {
   name: string;
   area: string | null;
   avatarUrl: string | null;
+  onEdit?: () => void;
 }
 
-export function ProfileHeader({ name, area, avatarUrl }: ProfileHeaderProps) {
+export function ProfileHeader({ name, area, avatarUrl, onEdit }: ProfileHeaderProps) {
   const initials = getInitials(name);
 
   return (
@@ -28,7 +31,13 @@ export function ProfileHeader({ name, area, avatarUrl }: ProfileHeaderProps) {
             </span>
           </div>
         )}
-        <button className="absolute bottom-0 right-0 w-9 h-9 rounded-full bg-secondary text-on-secondary flex items-center justify-center shadow-lg">
+        <button
+          type="button"
+          onClick={onEdit}
+          aria-label="Edit profile"
+          className="absolute bottom-0 right-0 w-9 h-9 rounded-full bg-secondary text-on-secondary flex items-center justify-center shadow-lg active:scale-95 transition-transform disabled:opacity-50"
+          disabled={!onEdit}
+        >
           <span className="material-symbols-outlined text-sm">edit</span>
         </button>
       </div>
