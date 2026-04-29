@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+/*
+ * Color schemes. The default values below are the original Padel Connect
+ * palette. The OM Player rebrand palette overrides them via
+ * `[data-theme="om-player"]` further down. The active scheme is set on
+ * <html> by the theme switcher component (persisted in localStorage).
+ */
 @theme inline {
   /* === Surface Hierarchy (tonal layering, no borders) === */
   --color-background: #f0f9f2;
@@ -66,10 +72,78 @@
   --color-inverse-surface: #08100c;
   --color-inverse-on-surface: #969f99;
 
+  /* === Editorial shadow tints (per-scheme) === */
+  --shadow-editorial: 0 24px 48px -12px rgba(40, 49, 44, 0.06);
+  --shadow-ambient: 0 8px 24px rgba(40, 49, 44, 0.06);
+
   /* === Typography === */
   --font-headline: var(--font-plus-jakarta-sans);
   --font-body: var(--font-be-vietnam-pro);
   --font-label: var(--font-plus-jakarta-sans);
+}
+
+/* === OM Player rebrand scheme (dark navy + emerald + lime) === */
+[data-theme="om-player"] {
+  --color-background: #0b1220;
+  --color-on-background: #ecf1f7;
+  --color-surface: #0b1220;
+  --color-surface-bright: #131c2e;
+  --color-surface-dim: #060b14;
+  --color-surface-container-lowest: #0e1626;
+  --color-surface-container-low: #131c2e;
+  --color-surface-container: #182236;
+  --color-surface-container-high: #1e293e;
+  --color-surface-container-highest: #263049;
+  --color-surface-variant: #1e2a3f;
+  --color-surface-tint: #00e6b2;
+  --color-on-surface: #ecf1f7;
+  --color-on-surface-variant: #9ba8bd;
+
+  --color-primary: #00e6b2;
+  --color-primary-dim: #00c098;
+  --color-primary-container: #00e6b2;
+  --color-primary-fixed: #00e6b2;
+  --color-primary-fixed-dim: #00c098;
+  --color-on-primary: #04231b;
+  --color-on-primary-container: #04231b;
+  --color-on-primary-fixed: #04231b;
+  --color-on-primary-fixed-variant: #00c098;
+  --color-inverse-primary: #00e6b2;
+
+  --color-secondary: #c6ff00;
+  --color-secondary-dim: #a6d900;
+  --color-secondary-container: #c6ff00;
+  --color-secondary-fixed: #c6ff00;
+  --color-secondary-fixed-dim: #a6d900;
+  --color-on-secondary: #0b1220;
+  --color-on-secondary-container: #0b1220;
+  --color-on-secondary-fixed: #0b1220;
+  --color-on-secondary-fixed-variant: #1f2a00;
+
+  --color-tertiary: #c6ff00;
+  --color-tertiary-dim: #a6d900;
+  --color-tertiary-container: #c6ff00;
+  --color-tertiary-fixed: #c6ff00;
+  --color-tertiary-fixed-dim: #a6d900;
+  --color-on-tertiary: #0b1220;
+  --color-on-tertiary-container: #0b1220;
+  --color-on-tertiary-fixed: #0b1220;
+  --color-on-tertiary-fixed-variant: #1f2a00;
+
+  --color-error: #ff6b6b;
+  --color-error-dim: #e04848;
+  --color-error-container: #ff6b6b;
+  --color-on-error: #2b0507;
+  --color-on-error-container: #2b0507;
+
+  --color-outline: #46546a;
+  --color-outline-variant: #2a3447;
+
+  --color-inverse-surface: #ecf1f7;
+  --color-inverse-on-surface: #0b1220;
+
+  --shadow-editorial: 0 24px 48px -12px rgba(0, 0, 0, 0.45);
+  --shadow-ambient: 0 8px 24px rgba(0, 0, 0, 0.35);
 }
 
 @layer utilities {
@@ -83,12 +157,16 @@
     background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-container) 100%);
   }
 
+  [data-theme="om-player"] .signature-gradient {
+    background: linear-gradient(135deg, #00e6b2 0%, #c6ff00 100%);
+  }
+
   .editorial-shadow {
-    box-shadow: 0 24px 48px -12px rgba(40, 49, 44, 0.06);
+    box-shadow: var(--shadow-editorial);
   }
 
   .ambient-shadow {
-    box-shadow: 0 8px 24px rgba(40, 49, 44, 0.06);
+    box-shadow: var(--shadow-ambient);
   }
 
   .no-scrollbar::-webkit-scrollbar {

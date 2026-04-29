@@ -4,6 +4,7 @@ import { Plus_Jakarta_Sans, Be_Vietnam_Pro } from "next/font/google";
 import { TopBar } from "@/components/layout/top-bar";
 import { BottomNav } from "@/components/layout/bottom-nav";
 import { SocialFab } from "@/components/layout/social-fab";
+import { ThemeSwitcher } from "@/components/layout/theme-switcher";
 import { SITE_NAME, SITE_URL, absoluteUrl } from "@/lib/site";
 import "./globals.css";
 
@@ -117,6 +118,11 @@ export default function RootLayout({
           rel="stylesheet"
         />
         <script
+          dangerouslySetInnerHTML={{
+            __html: `try{var t=localStorage.getItem('om-player:theme');if(t&&t!=='padel-connect'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}`,
+          }}
+        />
+        <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
         />
@@ -129,6 +135,7 @@ export default function RootLayout({
         <TopBar />
         <main className="pt-16 pb-24">{children}</main>
         <SocialFab />
+        <ThemeSwitcher />
         <BottomNav />
       </body>
     </html>
