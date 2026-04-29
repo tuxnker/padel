@@ -19,6 +19,7 @@ export const updateProfileSchema = z.object({
   name: z.string().min(1, "Name is required").max(100),
   skillLevel: z.enum(["beginner", "intermediate", "advanced"]),
   area: z.string().max(100).optional(),
+  contactPreference: z.enum(["in_app", "whatsapp"]).optional(),
 });
 
 export type CreatePostInput = z.infer<typeof createPostSchema>;

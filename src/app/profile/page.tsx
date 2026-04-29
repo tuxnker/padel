@@ -1,16 +1,9 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
-import { ProfileHeader } from "@/components/profile/profile-header";
 import { ActivityList } from "@/components/profile/activity-list";
 import type { SkillLevel } from "@/types";
-import { ProfileClient } from "./profile-client";
+import { ProfileClient, ProfileSettings } from "./profile-client";
 import { SignOutButton } from "./sign-out-button";
-
-const settingsItems = [
-  { icon: "notifications", label: "Notifications" },
-  { icon: "mail", label: "Contact Preferences" },
-  { icon: "shield", label: "Privacy & Security" },
-];
 
 export default async function ProfilePage() {
   const supabase = await createClient();
@@ -40,7 +33,7 @@ export default async function ProfilePage() {
 
   const { data: profile } = await supabase
     .from("users")
-    .select("name, skill_level, area, avatar_url")
+    .select("name, skill_level, area, avatar_url, contact_preference, notification_prefs")
     .eq("id", user.id)
     .maybeSingle();
 
@@ -59,30 +52,20 @@ export default async function ProfilePage() {
 
   return (
     <div className="pb-8 space-y-6">
-      <ProfileHeader name={displayName} area={profile?.area ?? null} avatarUrl={avatarUrl} />
       <ProfileClient
         userId={user.id}
+        initialName={displayName}
         initialSkillLevel={skillLevel}
         initialArea={profile?.area ?? null}
+        initialAvatarUrl={avatarUrl}
+        initialContactPreference={profile?.contact_preference ?? "in_app"}
       />
       <ActivityList userId={user.id} />
-      <div className="px-5 space-y-1">
-        <h2 className="font-headline text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-3">
-          Account Settings
-        </h2>
-        {settingsItems.map((item) => (
-          <button
-            key={item.label}
-            className="w-full flex items-center justify-between py-4 px-4 rounded-xl bg-surface-container-lowest mb-2"
-          >
-            <div className="flex items-center gap-3">
-              <span className="material-symbols-outlined text-outline text-xl">{item.icon}</span>
-              <span className="font-body text-sm text-on-surface">{item.label}</span>
-            </div>
-            <span className="material-symbols-outlined text-outline-variant text-lg">chevron_right</span>
-          </button>
-        ))}
-      </div>
+      <ProfileSettings
+        userId={user.id}
+        initialContactPreference={profile?.contact_preference ?? "in_app"}
+        initialNotificationPrefs={profile?.notification_prefs}
+      />
       <div className="px-5 text-center">
         <SignOutButton />
       </div>
