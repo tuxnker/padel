@@ -73,10 +73,10 @@ export function CourtFilters({
             aria-pressed={isActive}
             disabled={isUnavailable}
             className={cn(
-              "px-5 py-2.5 rounded-full font-headline text-sm font-bold whitespace-nowrap transition-all active:scale-95 inline-flex items-center gap-1.5",
+              "px-5 py-2.5 rounded-full border font-headline text-sm font-bold whitespace-nowrap transition-all active:scale-95 inline-flex items-center gap-1.5 backdrop-blur",
               isActive
-                ? "bg-primary text-on-primary"
-                : "bg-surface-container-highest text-on-surface",
+                ? "border-primary bg-primary text-on-primary"
+                : "border-outline-variant bg-surface-container/95 text-on-surface hover:border-primary hover:text-primary",
               isUnavailable && "opacity-50",
             )}
             title={

@@ -167,7 +167,7 @@ export default async function AreaPage({
                 <li key={court.slug}>
                   <Link
                     href={`/courts/${court.slug}`}
-                    className="block bg-surface-container-lowest rounded-2xl overflow-hidden ambient-shadow"
+                    className="block overflow-hidden rounded-2xl border border-outline-variant bg-surface-container ambient-shadow"
                   >
                     <div className="relative h-40">
                       {court.image_url ? (
@@ -213,7 +213,7 @@ export default async function AreaPage({
             <li key={other.slug}>
               <Link
                 href={`/courts/area/${other.slug}`}
-                className="inline-flex items-center rounded-full bg-surface-container-low px-4 py-2 text-sm font-medium text-on-surface hover:bg-surface-container"
+                className="inline-flex items-center rounded-full border border-outline-variant bg-surface-container px-4 py-2 text-sm font-medium text-on-surface hover:border-primary hover:text-primary transition-colors"
               >
                 Padel in {other.name}
               </Link>

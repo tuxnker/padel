@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-page-custom-font */
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, Be_Vietnam_Pro } from "next/font/google";
+import { Plus_Jakarta_Sans, Be_Vietnam_Pro, Space_Grotesk } from "next/font/google";
 import { TopBar } from "@/components/layout/top-bar";
 import { BottomNav } from "@/components/layout/bottom-nav";
 import { SocialFab } from "@/components/layout/social-fab";
@@ -20,13 +20,20 @@ const beVietnamPro = Be_Vietnam_Pro({
   display: "swap",
 });
 
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-space-grotesk",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: {
-    default: `${SITE_NAME} - Find Padel Courts & Players in Ireland`,
+    default: `${SITE_NAME} - Find one more player. Fill games. Play more.`,
     template: `%s | ${SITE_NAME}`,
   },
   description:
-    "Discover padel courts across Ireland. Compare prices, find players nearby, and join open games — all in one place.",
+    "Find one more player and fill your padel game. OM Player connects players to open matches at courts near you across Ireland and beyond.",
   metadataBase: new URL(SITE_URL),
   alternates: {
     canonical: "/",
@@ -34,14 +41,15 @@ export const metadata: Metadata = {
   applicationName: SITE_NAME,
   keywords: [
     "padel",
+    "OM Player",
+    "one more player",
+    "find padel players",
+    "fill padel game",
+    "padel near me",
     "padel Ireland",
-    "padel courts",
+    "book padel court",
     "padel Dublin",
     "padel Cork",
-    "padel Galway",
-    "find padel players",
-    "padel near me",
-    "book padel court",
   ],
   authors: [{ name: SITE_NAME }],
   openGraph: {
@@ -49,15 +57,33 @@ export const metadata: Metadata = {
     locale: "en_IE",
     siteName: SITE_NAME,
     url: SITE_URL,
-    title: `${SITE_NAME} - Find Padel Courts & Players in Ireland`,
+    title: `${SITE_NAME} - Find one more player. Fill games. Play more.`,
     description:
-      "Discover padel courts across Ireland. Compare prices, find players nearby, and join open games.",
+      "Find one more player and fill your padel game. Connect with players at courts near you.",
+    images: [
+      {
+        url: "/brand/og-card.png",
+        width: 1672,
+        height: 941,
+        alt: `${SITE_NAME} - Find one more player. Play more.`,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: `${SITE_NAME} - Padel in Ireland`,
+    title: `${SITE_NAME} - One More Player`,
     description:
-      "Find padel courts and players across Ireland. Compare prices, join open games.",
+      "Find one more player and fill your padel game. Open games at courts near you.",
+    images: ["/brand/og-card.png"],
+  },
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-48x48.png", sizes: "48x48", type: "image/png" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
   },
   robots: {
     index: true,
@@ -93,7 +119,7 @@ const organizationJsonLd = {
   "@type": "Organization",
   name: SITE_NAME,
   url: SITE_URL,
-  logo: absoluteUrl("/icon.svg"),
+  logo: absoluteUrl("/brand/icon-monogram.png"),
   areaServed: {
     "@type": "Country",
     name: "Ireland",
@@ -108,7 +134,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${plusJakartaSans.variable} ${beVietnamPro.variable}`}
+      className={`${plusJakartaSans.variable} ${beVietnamPro.variable} ${spaceGrotesk.variable}`}
     >
       <head>
         <link
@@ -126,7 +152,7 @@ export default function RootLayout({
       </head>
       <body className="bg-background font-body text-on-surface antialiased">
         <TopBar />
-        <main className="pt-16 pb-24">{children}</main>
+        <main className="pt-16 md:pt-20 pb-24 md:pb-12">{children}</main>
         <SocialFab />
         <BottomNav />
       </body>

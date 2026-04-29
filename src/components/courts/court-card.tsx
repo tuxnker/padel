@@ -18,7 +18,7 @@ export function CourtCard({ court, onClose }: CourtCardProps) {
 
   return (
     <div className="absolute bottom-4 left-4 right-4 z-20 animate-slide-up">
-      <div className="bg-surface-container-lowest rounded-3xl editorial-shadow overflow-hidden">
+      <div className="overflow-hidden rounded-3xl border border-outline-variant bg-surface-container editorial-shadow">
         {/* Court image or gradient fallback */}
         <div className="relative h-48 overflow-hidden">
           {court.image_url ? (
@@ -37,7 +37,7 @@ export function CourtCard({ court, onClose }: CourtCardProps) {
           )}
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 w-8 h-8 rounded-full bg-surface-container-lowest/80 backdrop-blur-sm flex items-center justify-center"
+            className="absolute top-4 right-4 w-8 h-8 rounded-full bg-surface-container/90 border border-outline-variant backdrop-blur-sm flex items-center justify-center"
           >
             <span className="material-symbols-outlined text-on-surface text-sm">
               close
@@ -58,8 +58,8 @@ export function CourtCard({ court, onClose }: CourtCardProps) {
                 <span className="text-sm">(124 reviews)</span>
               </div>
             </div>
-            <button className="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center">
-              <span className="material-symbols-outlined text-outline">
+            <button className="w-10 h-10 rounded-full border border-outline-variant bg-surface-container-high flex items-center justify-center">
+              <span className="material-symbols-outlined text-on-surface-variant">
                 favorite
               </span>
             </button>
@@ -86,7 +86,7 @@ export function CourtCard({ court, onClose }: CourtCardProps) {
 
           <Link
             href={`/courts/${court.slug}`}
-            className="mt-4 w-full h-12 rounded-2xl signature-gradient text-on-primary font-headline font-bold text-sm uppercase tracking-wider flex items-center justify-center gap-2 active:scale-[0.98] transition-transform"
+            className="mt-4 w-full h-12 rounded-2xl bg-primary text-on-primary font-headline font-bold text-sm uppercase tracking-wider flex items-center justify-center gap-2 active:scale-[0.98] hover:bg-primary-dim transition"
           >
             {court.booking_url
               ? `Book on ${formatBookingMethod(court.booking_method)}`

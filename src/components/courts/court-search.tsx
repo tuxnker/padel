@@ -16,8 +16,8 @@ export function CourtSearch({ value, onChange }: CourtSearchProps) {
           type="text"
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          placeholder="Search courts in Dublin..."
-          className="w-full h-12 pl-12 pr-4 rounded-xl bg-surface-container-lowest text-on-surface font-body text-sm placeholder:text-outline-variant ambient-shadow focus:outline-none focus:ring-2 focus:ring-primary/20 transition-shadow"
+          placeholder="Search courts..."
+          className="w-full h-12 pl-12 pr-4 rounded-2xl border border-outline-variant bg-surface-container/95 text-on-surface font-body text-sm placeholder:text-on-surface-variant ambient-shadow backdrop-blur focus:outline-none focus:ring-2 focus:ring-primary/30 transition-shadow"
         />
       </div>
     </div>

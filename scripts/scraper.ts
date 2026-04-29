@@ -274,7 +274,7 @@ const FETCH_TIMEOUT_MS = 15_000;
 async function fetchText(url: string) {
   const response = await fetch(url, {
     headers: {
-      "User-Agent": "PadelConnectScraper/1.0 (+https://padelconnect.ie)",
+      "User-Agent": "OMPlayerScraper/1.0 (+https://omplayer.app)",
     },
     signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
   });
@@ -290,7 +290,7 @@ async function fetchJson<T>(url: string) {
   const response = await fetch(url, {
     headers: {
       Accept: "application/json",
-      "User-Agent": "PadelConnectScraper/1.0 (+https://padelconnect.ie)",
+      "User-Agent": "OMPlayerScraper/1.0 (+https://omplayer.app)",
     },
     signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
   });

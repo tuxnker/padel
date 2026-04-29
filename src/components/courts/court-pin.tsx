@@ -12,9 +12,9 @@ interface CourtPinProps {
 
 function createPinIcon(isSelected: boolean) {
   const size = isSelected ? 48 : 40;
-  const bg = isSelected ? "#ffd709" : "#006941";
-  const border = isSelected ? "#6c5a00" : "#ffffff";
-  const iconColor = isSelected ? "#5b4b00" : "#caffdc";
+  const bg = isSelected ? "#C6FF00" : "#00E6B2";
+  const border = isSelected ? "#0B1220" : "#FFFFFF";
+  const iconColor = "#0B1220";
 
   return L.divIcon({
     className: "custom-pin",
@@ -30,7 +30,7 @@ function createPinIcon(isSelected: boolean) {
         display: flex;
         align-items: center;
         justify-content: center;
-        box-shadow: 0 8px 24px rgba(40, 49, 44, 0.15);
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
         transition: all 0.2s ease;
         cursor: pointer;
       ">

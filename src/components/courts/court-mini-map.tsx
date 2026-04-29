@@ -20,16 +20,16 @@ const miniPinIcon = L.divIcon({
       width: 36px;
       height: 36px;
       border-radius: 50%;
-      background: #006941;
+      background: #00E6B2;
       border: 3px solid #ffffff;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 6px 16px rgba(40, 49, 44, 0.2);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
     ">
       <span class="material-symbols-outlined" style="
         font-size: 18px;
-        color: #caffdc;
+        color: #0B1220;
         font-variation-settings: 'FILL' 1;
       ">sports_tennis</span>
     </div>

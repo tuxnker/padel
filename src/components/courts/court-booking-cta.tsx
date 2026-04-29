@@ -12,7 +12,7 @@ export function CourtBookingCta({ court }: CourtBookingCtaProps) {
     : `Instant booking via ${formatBookingMethod(court.booking_method)}`;
 
   return (
-    <div className="bg-surface-container-lowest rounded-2xl p-6 border-t-4 border-primary">
+    <div className="rounded-2xl border border-outline-variant bg-surface-container p-6 border-t-4 border-t-primary">
       <h3 className="font-headline text-xl font-extrabold text-on-surface text-center">
         {title}
       </h3>
@@ -24,7 +24,7 @@ export function CourtBookingCta({ court }: CourtBookingCtaProps) {
           href={court.booking_url}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-4 w-full h-12 rounded-2xl signature-gradient text-on-primary font-headline font-bold text-sm uppercase tracking-wider flex items-center justify-center gap-2 active:scale-[0.98] transition-transform"
+          className="mt-4 w-full h-12 rounded-2xl bg-primary text-on-primary font-headline font-bold text-sm uppercase tracking-wider flex items-center justify-center gap-2 active:scale-[0.98] hover:bg-primary-dim transition"
         >
           {court.membership_required
             ? "View Access Details"
@@ -36,7 +36,7 @@ export function CourtBookingCta({ court }: CourtBookingCtaProps) {
       ) : court.phone ? (
         <a
           href={`tel:${court.phone}`}
-          className="mt-4 w-full h-12 rounded-2xl signature-gradient text-on-primary font-headline font-bold text-sm uppercase tracking-wider flex items-center justify-center gap-2 active:scale-[0.98] transition-transform"
+          className="mt-4 w-full h-12 rounded-2xl bg-primary text-on-primary font-headline font-bold text-sm uppercase tracking-wider flex items-center justify-center gap-2 active:scale-[0.98] hover:bg-primary-dim transition"
         >
           Call to Book
           <span className="material-symbols-outlined text-lg">call</span>
@@ -46,7 +46,7 @@ export function CourtBookingCta({ court }: CourtBookingCtaProps) {
           href={court.website}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-4 w-full h-12 rounded-2xl signature-gradient text-on-primary font-headline font-bold text-sm uppercase tracking-wider flex items-center justify-center gap-2 active:scale-[0.98] transition-transform"
+          className="mt-4 w-full h-12 rounded-2xl bg-primary text-on-primary font-headline font-bold text-sm uppercase tracking-wider flex items-center justify-center gap-2 active:scale-[0.98] hover:bg-primary-dim transition"
         >
           Visit Venue Website
           <span className="material-symbols-outlined text-lg">open_in_new</span>
@@ -57,7 +57,7 @@ export function CourtBookingCta({ court }: CourtBookingCtaProps) {
         </p>
       )}
       <p className="text-xs text-on-surface-variant text-center mt-3 flex items-center justify-center gap-1">
-        <span className="material-symbols-outlined text-xs text-tertiary">
+        <span className="material-symbols-outlined text-xs text-secondary">
           bolt
         </span>
         {court.membership_required ? "Member access may apply" : "Real-time availability"}

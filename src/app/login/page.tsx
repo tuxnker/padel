@@ -1,11 +1,12 @@
 import { Suspense } from "react";
+import Image from "next/image";
 import { LoginForm } from "@/components/auth/login-form";
 
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Sign In",
-  description: "Sign in to Padel Connect to find players and join games.",
+  description: "Sign in to OM Player to find one more player and join open games.",
   robots: { index: false, follow: false },
   alternates: { canonical: "/login" },
 };
@@ -15,17 +16,17 @@ export default function LoginPage() {
     <div className="min-h-[calc(100vh-6rem)] flex flex-col items-center justify-center px-6">
       <div className="w-full max-w-sm space-y-8">
         {/* Logo */}
-        <div className="text-center space-y-2">
-          <div className="w-20 h-20 mx-auto rounded-full signature-gradient flex items-center justify-center mb-4">
-            <span className="material-symbols-outlined text-on-primary text-4xl">
-              sports_tennis
-            </span>
-          </div>
-          <h1 className="font-headline text-3xl font-extrabold text-primary italic">
-            Padel Connect
-          </h1>
+        <div className="text-center space-y-3">
+          <Image
+            src="/brand/wordmark-header-v2.png"
+            alt="OM Player"
+            width={1160}
+            height={390}
+            priority
+            className="mx-auto h-16 w-auto"
+          />
           <p className="text-sm text-on-surface-variant">
-            Sign in to find players and join games
+            Sign in to find one more player
           </p>
         </div>
 

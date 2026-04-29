@@ -14,7 +14,12 @@ import { NEARBY_RADIUS_KM, haversineKm } from "@/lib/geo";
 const CourtMap = dynamic(
   () =>
     import("@/components/courts/court-map").then((mod) => mod.CourtMap),
-  { ssr: false, loading: () => <div className="h-full w-full bg-surface-container-low animate-pulse" /> }
+  {
+    ssr: false,
+    loading: () => (
+      <div className="h-full w-full bg-[#0B1220] animate-pulse" />
+    ),
+  }
 );
 
 type SeedCourt = Omit<Court, "id" | "email"> & {

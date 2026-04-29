@@ -20,7 +20,7 @@ export function NearbyCourts({ courts }: NearbyCourtsProps) {
           <Link
             key={court.slug}
             href={`/courts/${court.slug}`}
-            className="flex-shrink-0 w-56 bg-surface-container-lowest rounded-2xl overflow-hidden ambient-shadow group"
+            className="flex-shrink-0 w-56 overflow-hidden rounded-2xl border border-outline-variant bg-surface-container ambient-shadow group"
           >
             <div className="h-32 overflow-hidden relative">
               {court.image_url ? (

@@ -23,12 +23,12 @@ export function CourtAmenities({ amenities }: CourtAmenitiesProps) {
       {displayAmenities.map((amenity) => (
         <div
           key={amenity}
-          className="bg-surface-container-lowest rounded-xl p-4 flex flex-col items-center gap-2"
+          className="rounded-2xl border border-outline-variant bg-surface-container p-4 flex flex-col items-center gap-2"
         >
           <span className="material-symbols-outlined text-primary text-2xl">
             {amenityIcons[amenity] || "check_circle"}
           </span>
-          <span className="font-headline text-xs font-bold uppercase tracking-wider text-on-surface-variant">
+          <span className="text-center font-headline text-xs font-bold uppercase tracking-wider text-on-surface-variant">
             {humaniseAmenity(amenity)}
           </span>
         </div>
