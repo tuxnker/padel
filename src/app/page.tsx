@@ -4,14 +4,14 @@ import { SITE_NAME, SITE_URL } from "@/lib/site";
 import { AREAS } from "@/lib/areas";
 
 export const metadata: Metadata = {
-  title: "Padel Courts & Players in Ireland",
+  title: "Find one more player. Fill games. Play more.",
   description:
-    "Find padel courts in Dublin, Cork, Galway, Limerick and across Ireland. Compare prices, view amenities, and join open games near you.",
+    "OM Player connects padel players to open games at courts near you. Find one more player, fill your match and get on court.",
   alternates: { canonical: "/" },
   openGraph: {
-    title: `${SITE_NAME} - Padel Courts & Players in Ireland`,
+    title: `${SITE_NAME} - One More Player`,
     description:
-      "Find padel courts across Ireland. Compare prices, view amenities, and join open games near you.",
+      "Find one more player and fill your padel game. Open matches at courts near you.",
     url: SITE_URL,
   },
 };
@@ -39,7 +39,7 @@ const webAppJsonLd = {
   applicationCategory: "SportsApplication",
   operatingSystem: "Any",
   description:
-    "Discover padel courts across Ireland, compare prices and find players to join open games.",
+    "Find one more player and fill your padel game. Open matches at courts near you.",
   offers: {
     "@type": "Offer",
     price: "0",
@@ -57,14 +57,14 @@ export default function HomePage() {
 
       <header className="space-y-3">
         <p className="font-headline text-sm font-bold uppercase tracking-wide text-secondary">
-          {SITE_NAME}
+          {SITE_NAME} — One More Player
         </p>
         <h1 className="font-headline text-3xl font-extrabold leading-tight text-on-surface">
-          Find padel courts and players across Ireland
+          Find one more player. Fill games. Play more.
         </h1>
         <p className="text-base text-on-surface-variant">
-          Compare prices, check amenities, and join open games at venues in
-          Dublin, Cork, Galway and beyond.
+          Connect with padel players, complete games effortlessly, and get on
+          court more often.
         </p>
       </header>
 
@@ -93,11 +93,11 @@ export default function HomePage() {
             groups
           </span>
           <h2 className="mt-3 font-headline text-xl font-extrabold text-on-surface">
-            Find players to play with
+            Find one more player
           </h2>
           <p className="mt-1 text-sm text-on-surface-variant">
-            Join open games at courts near you, or post your own to find
-            partners at your skill level.
+            Join open games at courts near you, or post your own to fill the
+            last seat at your skill level.
           </p>
         </Link>
       </section>
@@ -125,12 +125,11 @@ export default function HomePage() {
 
       <section className="rounded-3xl signature-gradient p-6 text-on-primary">
         <h2 className="font-headline text-xl font-extrabold">
-          Ireland&rsquo;s padel directory
+          A global padel community
         </h2>
         <p className="mt-2 text-sm opacity-90">
-          {SITE_NAME} indexes padel clubs across the country with up-to-date
-          prices, court counts, and booking links — so you can spend less time
-          searching and more time playing.
+          {SITE_NAME} connects players to open games at courts near them — so
+          you spend less time chasing partners and more time on court.
         </p>
         <Link
           href="/courts"

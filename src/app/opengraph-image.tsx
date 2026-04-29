@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
-import { SITE_NAME } from "@/lib/site";
+import { SITE_NAME, BRAND_COLORS } from "@/lib/site";
 
-export const alt = `${SITE_NAME} - Padel courts and players in Ireland`;
+export const alt = `${SITE_NAME} - Find one more player. Fill games. Play more.`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -16,9 +16,9 @@ export default function Image() {
           flexDirection: "column",
           justifyContent: "space-between",
           padding: "80px",
-          background:
-            "linear-gradient(135deg, #0b6f57 0%, #14a37b 55%, #f4d35e 100%)",
-          color: "#ffffff",
+          background: BRAND_COLORS.deepNavy,
+          backgroundImage: `radial-gradient(circle at 85% 15%, rgba(0,230,178,0.22) 0%, transparent 55%), radial-gradient(circle at 15% 95%, rgba(198,255,0,0.12) 0%, transparent 50%)`,
+          color: BRAND_COLORS.white,
           fontFamily: "system-ui, -apple-system, sans-serif",
         }}
       >
@@ -26,51 +26,67 @@ export default function Image() {
           style={{
             display: "flex",
             alignItems: "center",
-            gap: 16,
-            fontSize: 28,
-            fontWeight: 600,
-            letterSpacing: 4,
+            gap: 18,
+            fontSize: 26,
+            fontWeight: 700,
+            letterSpacing: 6,
             textTransform: "uppercase",
-            opacity: 0.9,
+            color: BRAND_COLORS.emerald,
           }}
         >
           <div
             style={{
-              width: 56,
-              height: 56,
+              width: 60,
+              height: 60,
               borderRadius: "50%",
-              background: "rgba(255,255,255,0.18)",
+              background: BRAND_COLORS.emerald,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              fontSize: 32,
+              color: BRAND_COLORS.deepNavy,
+              fontSize: 28,
+              fontWeight: 800,
             }}
           >
-            🎾
+            OM
           </div>
           {SITE_NAME}
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 28 }}>
           <div
             style={{
-              fontSize: 84,
+              fontSize: 96,
               fontWeight: 800,
-              lineHeight: 1.05,
-              letterSpacing: -2,
+              lineHeight: 1.02,
+              letterSpacing: -3,
+              color: BRAND_COLORS.white,
             }}
           >
-            Padel courts &amp; players in Ireland
+            Find one more player.
+          </div>
+          <div
+            style={{
+              fontSize: 96,
+              fontWeight: 800,
+              lineHeight: 1.02,
+              letterSpacing: -3,
+              color: BRAND_COLORS.emerald,
+            }}
+          >
+            Play more.
           </div>
           <div
             style={{
               fontSize: 32,
               fontWeight: 500,
-              opacity: 0.92,
+              opacity: 0.85,
               maxWidth: 980,
+              marginTop: 8,
             }}
           >
-            Compare prices, view amenities and join open games near you.
+            Fill open padel games at courts near you. Connect with players,
+            join matches, level up.
           </div>
         </div>
 
@@ -80,11 +96,13 @@ export default function Image() {
             justifyContent: "space-between",
             alignItems: "flex-end",
             fontSize: 24,
-            opacity: 0.85,
+            opacity: 0.8,
           }}
         >
-          <span>Dublin · Cork · Galway · Belfast · Limerick</span>
-          <span style={{ fontWeight: 700 }}>padelconnect.ie</span>
+          <span>Modern · Strong · Confident</span>
+          <span style={{ fontWeight: 700, color: BRAND_COLORS.lime }}>
+            omplayer.app
+          </span>
         </div>
       </div>
     ),

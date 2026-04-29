@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Sign In",
-  description: "Sign in to Padel Connect to find players and join games.",
+  description: "Sign in to OM Player to find one more player and join open games.",
   robots: { index: false, follow: false },
   alternates: { canonical: "/login" },
 };
@@ -22,10 +22,10 @@ export default function LoginPage() {
             </span>
           </div>
           <h1 className="font-headline text-3xl font-extrabold text-primary italic">
-            Padel Connect
+            OM Player
           </h1>
           <p className="text-sm text-on-surface-variant">
-            Sign in to find players and join games
+            Sign in to find one more player
           </p>
         </div>
 

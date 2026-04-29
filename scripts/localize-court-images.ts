@@ -37,7 +37,7 @@ function safeSlug(slug: string): string {
 async function downloadImage(url: string, slug: string) {
   const response = await fetch(url, {
     headers: {
-      "User-Agent": "PadelConnectAssetLocalizer/1.0 (+https://padelconnect.ie)",
+      "User-Agent": "OMPlayerAssetLocalizer/1.0 (+https://omplayer.app)",
     },
     signal: AbortSignal.timeout(20_000),
   });

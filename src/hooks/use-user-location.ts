@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import type { LatLng } from "@/lib/geo";
 
-const STORAGE_KEY = "padel-connect:user-location";
+const STORAGE_KEY = "om-player:user-location";
 const MAX_AGE_MS = 1000 * 60 * 60 * 24 * 7;
 
 type StoredLocation = LatLng & { timestamp: number };

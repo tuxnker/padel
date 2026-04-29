@@ -22,11 +22,11 @@ const beVietnamPro = Be_Vietnam_Pro({
 
 export const metadata: Metadata = {
   title: {
-    default: `${SITE_NAME} - Find Padel Courts & Players in Ireland`,
+    default: `${SITE_NAME} - Find one more player. Fill games. Play more.`,
     template: `%s | ${SITE_NAME}`,
   },
   description:
-    "Discover padel courts across Ireland. Compare prices, find players nearby, and join open games — all in one place.",
+    "Find one more player and fill your padel game. OM Player connects players to open matches at courts near you across Ireland and beyond.",
   metadataBase: new URL(SITE_URL),
   alternates: {
     canonical: "/",
@@ -34,14 +34,15 @@ export const metadata: Metadata = {
   applicationName: SITE_NAME,
   keywords: [
     "padel",
+    "OM Player",
+    "one more player",
+    "find padel players",
+    "fill padel game",
+    "padel near me",
     "padel Ireland",
-    "padel courts",
+    "book padel court",
     "padel Dublin",
     "padel Cork",
-    "padel Galway",
-    "find padel players",
-    "padel near me",
-    "book padel court",
   ],
   authors: [{ name: SITE_NAME }],
   openGraph: {
@@ -49,15 +50,15 @@ export const metadata: Metadata = {
     locale: "en_IE",
     siteName: SITE_NAME,
     url: SITE_URL,
-    title: `${SITE_NAME} - Find Padel Courts & Players in Ireland`,
+    title: `${SITE_NAME} - Find one more player. Fill games. Play more.`,
     description:
-      "Discover padel courts across Ireland. Compare prices, find players nearby, and join open games.",
+      "Find one more player and fill your padel game. Connect with players at courts near you.",
   },
   twitter: {
     card: "summary_large_image",
-    title: `${SITE_NAME} - Padel in Ireland`,
+    title: `${SITE_NAME} - One More Player`,
     description:
-      "Find padel courts and players across Ireland. Compare prices, join open games.",
+      "Find one more player and fill your padel game. Open games at courts near you.",
   },
   robots: {
     index: true,

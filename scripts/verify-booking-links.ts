@@ -53,7 +53,7 @@ async function requestUrl(url: string, method: "HEAD" | "GET", timeoutMs: number
       redirect: "follow",
       signal: controller.signal,
       headers: {
-        "User-Agent": "PadelConnectLinkVerifier/1.0 (+https://padelconnect.ie)",
+        "User-Agent": "OMPlayerLinkVerifier/1.0 (+https://omplayer.app)",
         Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
       },
     });

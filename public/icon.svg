@@ -1,6 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Padel Connect">
-  <rect width="512" height="512" rx="112" fill="#006941"/>
-  <circle cx="334" cy="178" r="50" fill="#7bfeb8"/>
-  <path fill="#caffdc" d="M181 331c-42-42-46-106-9-143 36-36 101-33 143 9s46 106 9 143c-36 36-101 33-143-9Zm33-33c22 22 55 25 73 7 18-18 15-51-7-73s-55-25-73-7c-18 18-15 51 7 73Z"/>
-  <path fill="#ffd709" d="m144 368 44-44 36 36-44 44c-10 10-26 10-36 0s-10-26 0-36Z"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="OM Player">
+  <rect width="512" height="512" rx="112" fill="#0B1220"/>
+  <circle cx="170" cy="220" r="78" fill="none" stroke="#FFFFFF" stroke-width="38" stroke-linecap="round"/>
+  <circle cx="170" cy="220" r="34" fill="#00E6B2"/>
+  <path d="M150 220 L170 200 L190 220 L170 240 Z" fill="#0B1220"/>
+  <path d="M260 308 V160 L308 220 L356 160 V308" fill="none" stroke="#FFFFFF" stroke-width="38" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M386 158 V308" stroke="#00E6B2" stroke-width="38" stroke-linecap="round"/>
 </svg>

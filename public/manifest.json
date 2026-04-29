@@ -1,11 +1,11 @@
 {
-  "name": "Padel Connect",
-  "short_name": "Padel",
-  "description": "Find padel courts and players in Ireland",
+  "name": "OM Player",
+  "short_name": "OM Player",
+  "description": "Find one more player. Fill games. Play more.",
   "start_url": "/courts",
   "display": "standalone",
-  "background_color": "#f0f9f2",
-  "theme_color": "#006941",
+  "background_color": "#0B1220",
+  "theme_color": "#00E6B2",
   "icons": [
     { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
   ]

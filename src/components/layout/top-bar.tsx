@@ -7,7 +7,7 @@ export function TopBar() {
     <header className="fixed top-0 w-full z-50 glass flex justify-between items-center px-6 h-16">
       <Link href="/courts">
         <h1 className="font-headline tracking-tight text-xl font-extrabold text-primary italic">
-          Padel Connect
+          OM Player
         </h1>
       </Link>
     </header>
