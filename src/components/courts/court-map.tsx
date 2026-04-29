@@ -75,8 +75,8 @@ function UserLocationOverlay({
     if (!location) return;
     const dot = L.circle([location.lat, location.lng], {
       radius: 120,
-      color: "#0b6f57",
-      fillColor: "#0b6f57",
+      color: "#00E6B2",
+      fillColor: "#00E6B2",
       fillOpacity: 0.85,
       weight: 2,
       interactive: false,
@@ -86,8 +86,8 @@ function UserLocationOverlay({
     if (radiusKm && radiusKm > 0) {
       radius = L.circle([location.lat, location.lng], {
         radius: radiusKm * 1000,
-        color: "#0b6f57",
-        fillColor: "#0b6f57",
+        color: "#00E6B2",
+        fillColor: "#00E6B2",
         fillOpacity: 0.06,
         weight: 1,
         dashArray: "4 4",

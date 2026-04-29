@@ -24,7 +24,7 @@ export function CourtInfoCards({ court }: CourtInfoCardsProps) {
     <div className="space-y-4">
       {/* Opening Hours */}
       {court.hours && (
-        <div className="bg-surface-container-low rounded-2xl p-5">
+        <div className="rounded-2xl border border-outline-variant bg-surface-container p-5">
           <div className="flex items-center gap-2 mb-4">
             <span className="material-symbols-outlined text-primary">
               schedule
@@ -52,9 +52,9 @@ export function CourtInfoCards({ court }: CourtInfoCardsProps) {
       )}
 
       {/* Access and Price Info */}
-      <div className="bg-surface-container-low rounded-2xl p-5 border-l-4 border-tertiary">
+      <div className="rounded-2xl border border-outline-variant bg-surface-container p-5 border-l-4 border-l-secondary">
         <div className="flex items-center gap-2 mb-4">
-          <span className="material-symbols-outlined text-tertiary">
+          <span className="material-symbols-outlined text-secondary">
             {hasPublicPrice ? "payments" : "id_card"}
           </span>
           <h3 className="font-headline text-lg font-bold text-on-surface">
@@ -93,13 +93,13 @@ export function CourtInfoCards({ court }: CourtInfoCardsProps) {
       </div>
 
       {/* Map snippet */}
-      <div className="bg-surface-container-low rounded-2xl overflow-hidden">
+      <div className="overflow-hidden rounded-2xl border border-outline-variant bg-surface-container">
         <CourtMiniMapClient lat={court.latitude} lng={court.longitude} name={court.name} />
         <a
           href={`https://www.google.com/maps/search/?api=1&query=${court.latitude},${court.longitude}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center justify-center gap-2 py-3 font-headline text-sm font-bold text-secondary"
+          className="flex items-center justify-center gap-2 py-3 font-headline text-sm font-bold text-primary hover:text-secondary transition-colors"
         >
           Open in Maps
           <span className="material-symbols-outlined text-sm">

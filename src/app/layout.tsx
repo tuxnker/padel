@@ -4,7 +4,6 @@ import { Plus_Jakarta_Sans, Be_Vietnam_Pro, Space_Grotesk } from "next/font/goog
 import { TopBar } from "@/components/layout/top-bar";
 import { BottomNav } from "@/components/layout/bottom-nav";
 import { SocialFab } from "@/components/layout/social-fab";
-import { ThemeSwitcher } from "@/components/layout/theme-switcher";
 import { SITE_NAME, SITE_URL, absoluteUrl } from "@/lib/site";
 import "./globals.css";
 
@@ -64,8 +63,8 @@ export const metadata: Metadata = {
     images: [
       {
         url: "/brand/og-card.png",
-        width: 1731,
-        height: 909,
+        width: 1672,
+        height: 941,
         alt: `${SITE_NAME} - Find one more player. Play more.`,
       },
     ],
@@ -79,9 +78,12 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/brand/icon-monogram.png", type: "image/png" },
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-48x48.png", sizes: "48x48", type: "image/png" },
     ],
-    apple: [{ url: "/brand/app-icon.png" }],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
   },
   robots: {
     index: true,
@@ -140,11 +142,6 @@ export default function RootLayout({
           rel="stylesheet"
         />
         <script
-          dangerouslySetInnerHTML={{
-            __html: `try{var t=localStorage.getItem('om-player:theme');if(t&&t!=='padel-connect'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}`,
-          }}
-        />
-        <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
         />
@@ -155,9 +152,8 @@ export default function RootLayout({
       </head>
       <body className="bg-background font-body text-on-surface antialiased">
         <TopBar />
-        <main className="pt-16 pb-24">{children}</main>
+        <main className="pt-16 md:pt-20 pb-24 md:pb-12">{children}</main>
         <SocialFab />
-        <ThemeSwitcher />
         <BottomNav />
       </body>
     </html>

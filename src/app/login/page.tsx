@@ -18,23 +18,13 @@ export default function LoginPage() {
         {/* Logo */}
         <div className="text-center space-y-3">
           <Image
-            src="/brand/wordmark-light.png"
+            src="/brand/wordmark-header-v2.png"
             alt="OM Player"
-            width={1774}
-            height={887}
+            width={1160}
+            height={390}
             priority
-            className="brand-wordmark-image mx-auto h-20 w-auto"
+            className="mx-auto h-16 w-auto"
           />
-          <div className="brand-wordmark-text justify-center">
-            <div className="w-20 h-20 mx-auto rounded-full signature-gradient flex items-center justify-center mb-4">
-              <span className="material-symbols-outlined text-on-primary text-4xl">
-                sports_tennis
-              </span>
-            </div>
-          </div>
-          <h1 className="brand-wordmark-text font-headline text-3xl font-extrabold text-primary italic justify-center">
-            OM Player
-          </h1>
           <p className="text-sm text-on-surface-variant">
             Sign in to find one more player
           </p>
