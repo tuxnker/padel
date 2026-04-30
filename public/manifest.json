@@ -2,6 +2,7 @@
   "name": "OM Player",
   "short_name": "OM Player",
   "description": "Find one more player. Fill games. Play more.",
+  "scope": "/",
   "start_url": "/courts",
   "display": "standalone",
   "background_color": "#0B1220",

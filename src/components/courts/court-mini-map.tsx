@@ -45,6 +45,7 @@ export function CourtMiniMap({ lat, lng, name }: CourtMiniMapProps) {
       dragging={false}
       doubleClickZoom={false}
       zoomControl={false}
+      attributionControl={false}
       style={{ height: 160, width: "100%" }}
     >
       <TileLayer url={PADEL_TILE_URL} attribution={PADEL_TILE_ATTRIBUTION} />

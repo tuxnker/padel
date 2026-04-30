@@ -118,6 +118,7 @@ export function CourtMap({
       zoom={12}
       className="h-full w-full z-0"
       zoomControl={false}
+      attributionControl={false}
     >
       <TileLayer url={PADEL_TILE_URL} attribution={PADEL_TILE_ATTRIBUTION} />
       <FitBounds

@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Be_Vietnam_Pro, Space_Grotesk } from "next/font/google";
 import { TopBar } from "@/components/layout/top-bar";
 import { BottomNav } from "@/components/layout/bottom-nav";
+import { PwaInstallButton } from "@/components/layout/pwa-install-button";
 import { SocialFab } from "@/components/layout/social-fab";
 import { SITE_NAME, SITE_URL, absoluteUrl } from "@/lib/site";
 import "./globals.css";
@@ -153,6 +154,7 @@ export default function RootLayout({
       <body className="bg-background font-body text-on-surface antialiased">
         <TopBar />
         <main className="pt-16 md:pt-20 pb-24 md:pb-12">{children}</main>
+        <PwaInstallButton />
         <SocialFab />
         <BottomNav />
       </body>
