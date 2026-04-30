@@ -120,6 +120,9 @@
 .leaflet-container {
   background: #e8eef0 !important;
 }
+.leaflet-bottom.leaflet-right {
+  display: none !important;
+}
 .court-tooltip {
   background: #111b2d !important;
   border: 1px solid #253149 !important;
